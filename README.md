@@ -1,1 +1,1 @@
-# etteande-automatiseerimine-2025
+# Etteande automatiseerimise projekt 2025
