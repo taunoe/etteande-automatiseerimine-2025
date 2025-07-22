@@ -12,9 +12,9 @@
 **************************************************/
 // Mootori suund
 #define CW      0  // clockwise
-#define FORWARD 0
+#define FORWARD 1
 #define CCW     1  // counterclockwise
-#define BACK    1
+#define BACK    0
 // Motor 1 pins
 const int M1_PULSE_PIN = 2;      // D2
 const int M1_DIRECTION_PIN = 3;  // D3
@@ -63,7 +63,8 @@ enum State {
   ASK_NEW_DETAILS,  // Ütle robotile
   MOVE_FORWARD,     // Mootorid liiguvad
   PUSH,             // Relee lülitatud
-  ERROR             // Viga
+  ERROR,            // Viga
+  IS_NEW_DETAILS    // Kas on uus detail?
 };
 
 // Init state
@@ -156,6 +157,10 @@ void loop() {
       relee_OFF();
       // Järgmine samm:
       current_state = MOVE_FORWARD;
+      break;
+
+    case IS_NEW_DETAILS:
+      Serial.println("masina: olek: KAS ON UUS DETAIL");
       break;
 
     case ERROR:
