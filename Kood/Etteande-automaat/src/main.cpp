@@ -122,23 +122,23 @@ void loop() {
   switch (current_state) {
     case IDLE:
       // Oota
-      Serial.println("switch: state: IDLE");
-      delay(1000);
+      Serial.println("masina: olek: OOTA");
+      delay(2000);
       // Järgmine samm:
       current_state = MOVE_FORWARD;
       break;
 
     case ASK_NEW_DETAILS:
-      Serial.println("switch: state: ASK_NEW_DETAILS");
+      Serial.println("masina: olek: KÜSI ROBERTALT");
       // TODO:
       ask_from_robot();
-      delay(1000);
+      delay(2000);
       // Järgmine samm:
       current_state = MOVE_FORWARD;
       break;
 
     case MOVE_FORWARD:
-      Serial.println("switch: state: MOVE_FORWARD");
+      Serial.println("masina: olek: LIIGUTA EDASI");
       // Liiguta edasi mootoreid
       run_step_motor(FORWARD, 500, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
       //delay(10);
@@ -150,9 +150,9 @@ void loop() {
       break;
 
     case PUSH:
-      Serial.println("switch: state: PUSH");
+      Serial.println("masina: olek: LÜKKA");
       relee_ON();
-      delay(1000);
+      delay(2000);
       relee_OFF();
       // Järgmine samm:
       current_state = MOVE_FORWARD;
@@ -160,7 +160,7 @@ void loop() {
 
     case ERROR:
       // Viga
-      Serial.println("switch: state: ERROR");
+      Serial.println("masina: olek: VIGA");
       current_state = IDLE; // Näiteks muudame tagasi ootama
       break;
   }
