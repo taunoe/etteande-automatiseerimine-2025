@@ -140,11 +140,11 @@ void loop() {
     case MOVE_FORWARD:
       Serial.println("masina: olek: LIIGUTA EDASI");
       // Liiguta edasi mootoreid
-      run_step_motor(FORWARD, 500, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
-      //delay(10);
+      run_step_motor(FORWARD, 1000, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
+      delay(100);
       // Liiguta mootoreid nõks tagasi
       run_step_motor(BACK, 500, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
-      //delay(10);
+      delay(100);
       // Järgmine samm:
       current_state = PUSH;
       break;
