@@ -45,7 +45,7 @@ const int RELEE_PIN = 5;
 // Function prototypes
 void init_relee();
 void relee_ON();
-void relee_OFF()
+void relee_OFF();
 
 /*************************************************
 // Olekud
