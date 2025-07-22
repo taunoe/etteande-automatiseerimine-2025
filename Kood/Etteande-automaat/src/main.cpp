@@ -240,5 +240,5 @@ void relee_OFF() {
 }
 
 void ask_from_robot() {
-  println("Küsin ROBERTALT");
+  Serial.println("Küsin ROBERTALT");
 }
