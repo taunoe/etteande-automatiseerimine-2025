@@ -6,7 +6,7 @@
 	(paper "A4")
 	(title_block
 		(title "Etteande skeem")
-		(date "2025-06-20")
+		(date "2025-07-22")
 		(rev "1.0")
 		(company "Tauno Erik")
 		(comment 1 "TSENTER")
@@ -3306,6 +3306,16 @@
 	)
 	(wire
 		(pts
+			(xy 21.59 110.49) (xy 33.02 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "01f119ca-d310-4596-b2ea-cfe241e59079")
+	)
+	(wire
+		(pts
 			(xy 114.3 116.84) (xy 143.51 116.84)
 		)
 		(stroke
@@ -3693,6 +3703,16 @@
 			(type default)
 		)
 		(uuid "82b118de-a348-4a4c-9bba-94aa2204940b")
+	)
+	(wire
+		(pts
+			(xy 187.96 97.79) (xy 195.58 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8c538568-48e0-477b-b677-0c3969d5bc15")
 	)
 	(wire
 		(pts
@@ -4114,6 +4134,16 @@
 		)
 		(uuid "1c3889c3-a2be-4685-9b23-dd1b068313d4")
 	)
+	(label "D9"
+		(at 187.96 97.79 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "282cc16f-8910-4463-81d0-0166ab782e36")
+	)
 	(label "Toiteplokk_+24V"
 		(at 142.24 54.61 0)
 		(effects
@@ -4203,6 +4233,16 @@
 			(justify left bottom)
 		)
 		(uuid "a74e1e54-5b37-485e-b720-e9fe49b01df4")
+	)
+	(label "D9"
+		(at 21.59 110.49 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "a9064a93-1aab-4f56-b315-eafd581c20c1")
 	)
 	(label "D7"
 		(at 21.59 105.41 0)
