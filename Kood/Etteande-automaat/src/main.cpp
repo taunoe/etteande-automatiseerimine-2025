@@ -73,9 +73,9 @@ enum State {
 };
 
 // Init state
-State current_state = IDLE;
+static State current_state = IDLE;
 
-
+static unsigned int counter = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -89,14 +89,19 @@ void setup() {
 }
 
 void loop() {
+  Serial.print("current_state: ");
+  Serial.println(current_state);
+  delay(1000);  // Delay for readability
+
   // Olekumasin ////////////////////////////////////
   switch (current_state) {
     case IDLE:
       // Oota
       Serial.println("masina: olek: OOTA");
-      delay(2000);
+      delay(1000);
       // Järgmine samm:
       current_state = MOVE_FORWARD;
+      Serial.println("x");
       break;
 
     case ASK_NEW_DETAILS:
@@ -151,6 +156,7 @@ void loop() {
       }
       break;
   }
+
 }
 
 
