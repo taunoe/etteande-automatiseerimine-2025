@@ -230,6 +230,27 @@ void ask_from_robot() {
 
 bool is_details() {
   // Lülitid ////////////////////////////////////////////////
+  bool left_btn_state = digitalRead(LEFT_BTN_PIN);
+  bool right_btn_state = digitalRead(RIGHT_BTN_PIN);
+
+  // Detect left button release
+  if (left_btn_state == LOW) {
+    Serial.println("Vasak nupp vabastatud");
+    retutn false;
+  }
+
+  // Detect right button release
+  if (right_btn_state == LOW) {
+    Serial.println("Parem nupp vabastatud");
+    retutn false;
+  }
+
+  return true;
+}
+
+/*
+bool is_details() {
+  // Lülitid ////////////////////////////////////////////////
   static bool last_left_btn_state = LOW;
   static bool last_right_btn_state = LOW;
 
@@ -267,3 +288,4 @@ bool is_details() {
 
   return true;
 }
+*/
