@@ -134,7 +134,6 @@ void loop() {
 
     case PUSH: //3
       Serial.println("masina olek: LÜKKA");
-
       push_relee_ON();
       delay(3100);
       push_relee_OFF();
@@ -147,7 +146,6 @@ void loop() {
       break;
     
     case VIGA: //4
-      // Viga
       Serial.println("masina olek: VIGA");
       current_state = IDLE; // Näiteks muudame tagasi ootama
       break;
@@ -165,9 +163,9 @@ void loop() {
         Serial.println("masina olek: KAS ON DETAILE: EI");
       }
       break;
-  }
+  }  // switch end
 
-}
+}  // loop end
 
 
 /**********************************************************************
