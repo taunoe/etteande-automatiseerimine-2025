@@ -98,14 +98,14 @@ void loop() {
   switch (current_state) {
     case IDLE: //0
       // Oota
-      Serial.println("masina: olek: OOTA");
+      Serial.println("masina olek: OOTA");
       delay(1000);
       // Järgmine samm:
       current_state = IS_DETAILS;
       break;
 
     case ASK_NEW_DETAILS: //1
-      Serial.println("masina: olek: KÜSI ROBERTALT");
+      Serial.println("masina olek: KÜSI ROBERTALT");
       // TODO:
       status = ask_from_robot();
       //delay(2000);
@@ -117,7 +117,7 @@ void loop() {
       break;
 
     case MOVE_FORWARD: //2
-      Serial.println("masina: olek: LIIGUTA EDASI");
+      Serial.println("masina olek: LIIGUTA EDASI");
       // Liiguta edasi mootoreid
       run_step_motor(FORWARD, 350, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
       delay(100);
@@ -129,7 +129,7 @@ void loop() {
       break;
 
     case PUSH: //3
-      Serial.println("masina: olek: LÜKKA");
+      Serial.println("masina olek: LÜKKA");
       relee_ON();
       delay(2000);
       relee_OFF();
@@ -142,21 +142,21 @@ void loop() {
     
     case VIGA: //4
       // Viga
-      Serial.println("masina: olek: VIGA");
+      Serial.println("masina olek: VIGA");
       current_state = IDLE; // Näiteks muudame tagasi ootama
       break;
 
     case IS_DETAILS: //5
-      Serial.print("masina: olek: KAS ON DETAILE: ");
+      //Serial.print("masina: olek: KAS ON DETAILE: ");
       status = is_details();
       // Järgmine samm:
       if(status == true) {
         current_state = MOVE_FORWARD;
-        Serial.println("JAH");
+        Serial.println("masina olek: KAS ON DETAILE: JAH");
       }
       else {
         current_state = ASK_NEW_DETAILS;
-        Serial.println("EI");
+        Serial.println("masina olek: KAS ON DETAILE: EI");
       }
       break;
   }
