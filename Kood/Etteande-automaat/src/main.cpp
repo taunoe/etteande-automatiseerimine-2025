@@ -55,6 +55,11 @@ void relee_OFF();
 **************************************************/
 void ask_from_robot();
 
+/*
+Nuppud
+*/
+bool is_details();
+
 /*************************************************
 // Olekud
 **************************************************/
@@ -64,7 +69,7 @@ enum State {
   MOVE_FORWARD,     // Mootorid liiguvad
   PUSH,             // Relee lülitatud
   ERROR,            // Viga
-  IS_NEW_DETAILS    // Kas on uus detail?
+  IS_DETAILS    // Kas on uus detail?
 };
 
 // Init state
@@ -84,41 +89,6 @@ void setup() {
 }
 
 void loop() {
-  // Lülitid ////////////////////////////////////////////////
-  static bool last_left_btn_state = LOW;
-  static bool last_right_btn_state = LOW;
-
-  bool left_btn_state = digitalRead(LEFT_BTN_PIN);
-  bool right_btn_state = digitalRead(RIGHT_BTN_PIN);
-
-  // Detect left button release
-  if (last_left_btn_state == HIGH && left_btn_state == LOW) {
-    left_release_time = millis();
-    Serial.println("Vasak nupp vabastatud");
-  }
-
-  // Detect right button release
-  if (last_right_btn_state == HIGH && right_btn_state == LOW) {
-    right_release_time = millis();
-    Serial.println("Parem nupp vabastatud");
-  }
-
-  last_left_btn_state = left_btn_state;
-  last_right_btn_state = right_btn_state;
-
-  // Check if both buttons were released within the allowed window
-  if (left_release_time != 0 && right_release_time != 0 &&
-      abs((unsigned long)(left_release_time - right_release_time)) <= RELEASE_WINDOW) {
-      Serial.println("Mölemad nupud vabastatud");
-    // Detaili ei ole
-    // Küsi robotilt
-    current_state = ASK_NEW_DETAILS;
-
-    // Reset release times to prevent retriggering
-    left_release_time = 0;
-    right_release_time = 0;
-  }
-
   // Olekumasin ////////////////////////////////////
   switch (current_state) {
     case IDLE:
@@ -144,7 +114,7 @@ void loop() {
       run_step_motor(FORWARD, 1000, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
       delay(100);
       // Liiguta mootoreid nõks tagasi
-      run_step_motor(BACK, 500, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
+      run_step_motor(BACK, 250, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
       delay(100);
       // Järgmine samm:
       current_state = PUSH;
@@ -156,17 +126,26 @@ void loop() {
       delay(2000);
       relee_OFF();
       // Järgmine samm:
-      current_state = MOVE_FORWARD;
+      current_state = IS_DETAILS;
       break;
-
-    case IS_NEW_DETAILS:
-      Serial.println("masina: olek: KAS ON UUS DETAIL");
-      break;
-
+    
     case ERROR:
       // Viga
       Serial.println("masina: olek: VIGA");
       current_state = IDLE; // Näiteks muudame tagasi ootama
+      break;
+
+    case IS_DETAILS:
+      Serial.println("masina: olek: KAS ON DETAILE");
+      bool status = is_details();
+
+      // Järgmine samm:
+      if(status == true) {
+        current_state = MOVE_FORWARD;
+      }
+      else {
+        current_state = ASK_NEW_DETAILS;
+      }
       break;
   }
 }
@@ -246,4 +225,45 @@ void relee_OFF() {
 
 void ask_from_robot() {
   Serial.println("Küsin ROBERTALT");
+  // TODO
+}
+
+bool is_details() {
+  // Lülitid ////////////////////////////////////////////////
+  static bool last_left_btn_state = LOW;
+  static bool last_right_btn_state = LOW;
+
+  bool left_btn_state = digitalRead(LEFT_BTN_PIN);
+  bool right_btn_state = digitalRead(RIGHT_BTN_PIN);
+
+    // Detect left button release
+  if (last_left_btn_state == HIGH && left_btn_state == LOW) {
+    left_release_time = millis();
+    Serial.println("Vasak nupp vabastatud");
+  }
+
+  // Detect right button release
+  if (last_right_btn_state == HIGH && right_btn_state == LOW) {
+    right_release_time = millis();
+    Serial.println("Parem nupp vabastatud");
+  }
+
+  last_left_btn_state = left_btn_state;
+  last_right_btn_state = right_btn_state;
+
+  // Check if both buttons were released within the allowed window
+  if (left_release_time != 0 && right_release_time != 0 &&
+    abs((unsigned long)(left_release_time - right_release_time)) <= RELEASE_WINDOW) {
+    Serial.println("Mölemad nupud vabastatud");
+
+
+    // Reset release times to prevent retriggering
+    left_release_time = 0;
+    right_release_time = 0;
+    // Detaili ei ole
+    return false;
+  }
+  // TODO: kui üks vajutatud ja teine mitte siis on viga
+
+  return true;
 }
