@@ -119,10 +119,10 @@ void loop() {
     case MOVE_FORWARD: //2
       Serial.println("masina: olek: LIIGUTA EDASI");
       // Liiguta edasi mootoreid
-      run_step_motor(FORWARD, 1000, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
+      run_step_motor(FORWARD, 350, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
       delay(100);
       // Liiguta mootoreid nõks tagasi
-      run_step_motor(BACK, 250, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
+      run_step_motor(BACK, 50, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
       delay(100);
       // Järgmine samm:
       current_state = PUSH;
@@ -239,7 +239,7 @@ void relee_OFF() {
 bool ask_from_robot() {
   Serial.println("Küsin ROBERTALT");
   // TODO
-  delay(1000);
+  delay(2000);
   return true;
 }
 
