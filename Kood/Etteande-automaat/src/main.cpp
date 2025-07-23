@@ -101,8 +101,7 @@ void loop() {
       Serial.println("masina: olek: OOTA");
       delay(1000);
       // Järgmine samm:
-      current_state = MOVE_FORWARD;
-      Serial.println("x");
+      current_state = IS_DETAILS;
       break;
 
     case ASK_NEW_DETAILS: //1
