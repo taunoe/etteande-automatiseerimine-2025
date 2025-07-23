@@ -41,18 +41,20 @@ unsigned long right_release_time = 0;
 void init_switches(int left_pin, int right_pin);
 
 /*************************************************
- Relee
+ Push Relee
 **************************************************/
 // Pins
-const int RELEE_PIN = 9;  // D9
+const int PUSH_RELEE_PIN = 9;  // D9
 // Function prototypes
-void init_relee();
-void relee_ON();
-void relee_OFF();
+void init_push_relee();
+void push_relee_ON();
+void push_relee_OFF();
 
 /*************************************************
  Küsi robotilt
 **************************************************/
+const int ROBOT_PIN = 10; // D10
+void init_ask_from_robot();
 bool ask_from_robot();
 
 /*
@@ -85,8 +87,10 @@ void setup() {
   init_motor();
   // Lülitid
   init_switches(LEFT_BTN_PIN, RIGHT_BTN_PIN);
-  // Relee
-  init_relee();
+  // Lükkamise Relee
+  init_push_relee();
+
+  init_ask_from_robot();
 }
 
 void loop() {
@@ -130,11 +134,13 @@ void loop() {
 
     case PUSH: //3
       Serial.println("masina olek: LÜKKA");
-      relee_ON();
-      delay(2000);
-      relee_OFF();
+
+      push_relee_ON();
+      delay(3100);
+      push_relee_OFF();
+      delay(5000);
       counter++;
-      Serial.print("Loendur: ");
+      Serial.print("--------Loendur: ");
       Serial.println(counter);
       // Järgmine samm:
       current_state = IS_DETAILS;
@@ -220,26 +226,34 @@ void init_motor() {
   Serial.println("Mootor seadistatud!");
 }
 
-void init_relee() {
-  pinMode(RELEE_PIN, OUTPUT);
-  digitalWrite(RELEE_PIN, LOW);
-  Serial.println("Relee seadistatud!");
+void init_push_relee() {
+  pinMode(PUSH_RELEE_PIN, OUTPUT);
+  digitalWrite(PUSH_RELEE_PIN, LOW);
+  Serial.println("Lükkamise relee seadistatud!");
 }
 
-void relee_ON() {
-  digitalWrite(RELEE_PIN, HIGH);
-  Serial.println("Relee ON");
+void push_relee_ON() {
+  digitalWrite(PUSH_RELEE_PIN, HIGH);
+  Serial.println("Lükkamise relee ON");
 }
 
-void relee_OFF() {
-  digitalWrite(RELEE_PIN, LOW);
-  Serial.println("Relee OFF");
+void push_relee_OFF() {
+  digitalWrite(PUSH_RELEE_PIN, LOW);
+  Serial.println("Lükkamise relee OFF");
+}
+
+
+void init_ask_from_robot() {
+  pinMode(ROBOT_PIN, OUTPUT);
+  digitalWrite(ROBOT_PIN, LOW);
+  Serial.println("Roboti pin seadistatud!");
 }
 
 bool ask_from_robot() {
   Serial.println("Küsin ROBERTALT");
-  // TODO
-  delay(2000);
+  digitalWrite(ROBOT_PIN, HIGH);
+  delay(1000);
+  digitalWrite(ROBOT_PIN, LOW);
   return true;
 }
 

@@ -2884,7 +2884,7 @@
 		(uuid 0a338b4b-c2b7-491a-bf88-efbb6b075a77)
 	)
 	(rectangle
-		(start 17.78 20.32)
+		(start 16.51 20.32)
 		(end 72.39 55.88)
 		(stroke
 			(width 0)
@@ -2896,8 +2896,8 @@
 		(uuid 37ad4321-7e78-4e8c-85c1-637126d46a76)
 	)
 	(rectangle
-		(start 17.78 60.96)
-		(end 72.39 147.32)
+		(start 16.51 60.96)
+		(end 74.93 148.59)
 		(stroke
 			(width 0)
 			(type default)
@@ -2930,6 +2930,18 @@
 			(type none)
 		)
 		(uuid 8905e9eb-9cc1-4a20-83ba-02e2038834ca)
+	)
+	(rectangle
+		(start 16.51 151.13)
+		(end 74.93 193.04)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid 9f6727dc-d0e3-4e1c-87ae-fa3e7173c57b)
 	)
 	(rectangle
 		(start 77.47 137.16)
@@ -2976,9 +2988,9 @@
 		)
 		(uuid "52be01db-b248-4fd2-93a9-9d043e553325")
 	)
-	(text "Relee Moodul 5V"
+	(text "Lükkamise relee moodul 5V"
 		(exclude_from_sim no)
-		(at 195.072 83.312 0)
+		(at 204.978 83.566 0)
 		(effects
 			(font
 				(size 2.54 2.54)
@@ -3036,6 +3048,16 @@
 			(justify left)
 		)
 		(uuid "945c6cb3-2997-4c84-94de-bd604d69e43a")
+	)
+	(text "Robotilt küsimine"
+		(exclude_from_sim no)
+		(at 36.576 155.702 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+			)
+		)
+		(uuid "de5cc33c-8284-4c2b-925e-65f6d84ec9be")
 	)
 	(text "Mootor 2"
 		(exclude_from_sim no)
@@ -3175,6 +3197,26 @@
 	)
 	(wire
 		(pts
+			(xy 20.32 168.91) (xy 20.32 172.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0ed80e8c-839f-44df-a675-31b9b1d33aa1")
+	)
+	(wire
+		(pts
+			(xy 55.88 168.91) (xy 60.96 168.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "152923ef-5c91-4e71-ad9f-f3b6212dd495")
+	)
+	(wire
+		(pts
 			(xy 204.47 49.53) (xy 215.9 49.53)
 		)
 		(stroke
@@ -3235,6 +3277,26 @@
 	)
 	(wire
 		(pts
+			(xy 21.59 113.03) (xy 33.02 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "217f8a5f-1c90-47da-8346-9caa5cc47bcf")
+	)
+	(wire
+		(pts
+			(xy 22.86 170.18) (xy 30.48 170.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2505923a-2f82-420b-b260-514779d1ade5")
+	)
+	(wire
+		(pts
 			(xy 204.47 58.42) (xy 204.47 59.69)
 		)
 		(stroke
@@ -3272,6 +3334,16 @@
 			(type default)
 		)
 		(uuid "33227e40-93bb-4787-972f-4fd142d69fd3")
+	)
+	(wire
+		(pts
+			(xy 30.48 175.26) (xy 20.32 175.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "350d938a-eb47-471e-b02e-9b0d28289738")
 	)
 	(wire
 		(pts
@@ -3415,6 +3487,16 @@
 	)
 	(wire
 		(pts
+			(xy 55.88 176.53) (xy 60.96 176.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7b4b120d-c55e-4b28-9cac-792853efea93")
+	)
+	(wire
+		(pts
 			(xy 114.3 114.3) (xy 143.51 114.3)
 		)
 		(stroke
@@ -3482,6 +3564,16 @@
 			(type default)
 		)
 		(uuid "920ae46c-6bbc-40b8-b1d4-be6284f22736")
+	)
+	(wire
+		(pts
+			(xy 20.32 172.72) (xy 30.48 172.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "95bdd702-8b3e-44f4-924f-96623f20ddc6")
 	)
 	(wire
 		(pts
@@ -3565,6 +3657,16 @@
 	)
 	(wire
 		(pts
+			(xy 55.88 172.72) (xy 60.96 172.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ad4fa7f3-022a-44f4-bd0a-7a126671b725")
+	)
+	(wire
+		(pts
 			(xy 181.61 49.53) (xy 181.61 38.1)
 		)
 		(stroke
@@ -3582,6 +3684,16 @@
 			(type default)
 		)
 		(uuid "b935804f-8512-4c29-9db0-1f68ff2a5577")
+	)
+	(wire
+		(pts
+			(xy 20.32 175.26) (xy 20.32 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bacd0086-b776-4814-bde9-053c4f1a5315")
 	)
 	(wire
 		(pts
@@ -3803,6 +3915,26 @@
 		)
 		(uuid "282cc16f-8910-4463-81d0-0166ab782e36")
 	)
+	(label "D10"
+		(at 22.86 170.18 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "2ef7e541-e3ed-487f-84f4-f711bc0503ec")
+	)
+	(label "Robot_GND"
+		(at 60.96 168.91 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "36ce1951-f546-4bdb-a285-7105e5215ca7")
+	)
 	(label "Toiteplokk_+24V"
 		(at 142.24 54.61 0)
 		(effects
@@ -3812,6 +3944,26 @@
 			(justify left bottom)
 		)
 		(uuid "4c1bda51-f6f3-4c4f-9779-a41722975b0c")
+	)
+	(label "D10"
+		(at 21.59 113.03 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "528b77e5-eda5-4a57-9709-ebe0e7fcfc1e")
+	)
+	(label "Robot_24V"
+		(at 60.96 176.53 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "5eed5b69-2162-467c-a4b1-44216a3705cc")
 	)
 	(label "VIN"
 		(at 43.18 68.58 180)
@@ -3912,6 +4064,16 @@
 			(justify left bottom)
 		)
 		(uuid "abfd48ea-870a-4d98-9ebf-a72d47e67dc3")
+	)
+	(label "Robot_IO_pin"
+		(at 60.96 172.72 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "b18300a8-b83a-4e37-bb8b-99f05c237c92")
 	)
 	(label "D3"
 		(at 120.65 100.33 0)
@@ -4074,6 +4236,138 @@
 			(project "Sammu-mootorite_skeem"
 				(path "/d43a4c27-749c-4ae5-bcc7-08103729ecfc"
 					(reference "#PWR012")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 20.32 168.91 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2d2b0d6a-ab3d-4714-a8a9-aac8bab8cb1d")
+		(property "Reference" "#PWR01"
+			(at 20.32 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5V"
+			(at 20.32 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 20.32 168.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 20.32 168.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 20.32 168.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "169a36b3-cf9b-467e-ac67-8dc202001dd8")
+		)
+		(instances
+			(project "Sammu-mootorite_skeem"
+				(path "/d43a4c27-749c-4ae5-bcc7-08103729ecfc"
+					(reference "#PWR01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 20.32 180.34 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2ec97008-a594-4414-97fa-75ee6a08cc3b")
+		(property "Reference" "#PWR02"
+			(at 20.32 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 20.32 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 20.32 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 20.32 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 20.32 180.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "64412e8e-b477-49ea-bc84-f67ecbfb87ca")
+		)
+		(instances
+			(project "Sammu-mootorite_skeem"
+				(path "/d43a4c27-749c-4ae5-bcc7-08103729ecfc"
+					(reference "#PWR02")
 					(unit 1)
 				)
 			)
@@ -4495,6 +4789,86 @@
 			(project ""
 				(path "/d43a4c27-749c-4ae5-bcc7-08103729ecfc"
 					(reference "U6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Tauno_Library:Relee_Moodul")
+		(at 43.18 172.72 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6c32f364-6099-4b7e-98b4-1ee0874b2da1")
+		(property "Reference" "U9"
+			(at 34.798 164.338 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 64.135 160.02 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" ""
+			(at 43.18 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 43.18 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 43.18 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "3"
+			(uuid "3db7b2e3-2abc-40e4-ac3f-22c02674ee32")
+		)
+		(pin "1"
+			(uuid "d890359e-0d79-4952-aed4-48e344af2417")
+		)
+		(pin "4"
+			(uuid "3bc8c064-83c8-4e60-b837-cffcd6c322b6")
+		)
+		(pin "2"
+			(uuid "dd458916-c4fc-42a5-b1e6-b245255e9dd8")
+		)
+		(pin "5"
+			(uuid "386879c6-f948-476c-8620-0f6b73c55887")
+		)
+		(pin "6"
+			(uuid "8317b79f-027f-4799-9949-fcd652456b7b")
+		)
+		(instances
+			(project "Sammu-mootorite_skeem"
+				(path "/d43a4c27-749c-4ae5-bcc7-08103729ecfc"
+					(reference "U9")
 					(unit 1)
 				)
 			)
