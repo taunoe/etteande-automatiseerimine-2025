@@ -236,13 +236,13 @@ bool is_details() {
   // Detect left button release
   if (left_btn_state == LOW) {
     Serial.println("Vasak nupp vabastatud");
-    retutn false;
+    return false;
   }
 
   // Detect right button release
   if (right_btn_state == LOW) {
     Serial.println("Parem nupp vabastatud");
-    retutn false;
+    return false;
   }
 
   return true;
