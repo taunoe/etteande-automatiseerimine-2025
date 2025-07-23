@@ -53,7 +53,7 @@ void relee_OFF();
 /*************************************************
  Küsi robotilt
 **************************************************/
-void ask_from_robot();
+bool ask_from_robot();
 
 /*
 Nuppud
@@ -102,10 +102,11 @@ void loop() {
     case ASK_NEW_DETAILS:
       Serial.println("masina: olek: KÜSI ROBERTALT");
       // TODO:
-      ask_from_robot();
-      delay(2000);
+      bool robot_status = ask_from_robot();
+      //delay(2000);
+
       // Järgmine samm:
-      current_state = MOVE_FORWARD;
+      current_state = IS_DETAILS;
       break;
 
     case MOVE_FORWARD:
@@ -136,15 +137,17 @@ void loop() {
       break;
 
     case IS_DETAILS:
-      Serial.println("masina: olek: KAS ON DETAILE");
+      Serial.print("masina: olek: KAS ON DETAILE: ");
       bool status = is_details();
 
       // Järgmine samm:
       if(status == true) {
         current_state = MOVE_FORWARD;
+        Serial.println("JAH");
       }
       else {
         current_state = ASK_NEW_DETAILS;
+        Serial.println("EI");
       }
       break;
   }
@@ -223,9 +226,11 @@ void relee_OFF() {
   Serial.println("Relee OFF");
 }
 
-void ask_from_robot() {
+bool ask_from_robot() {
   Serial.println("Küsin ROBERTALT");
   // TODO
+  delay(1000);
+  return true;
 }
 
 bool is_details() {
