@@ -2,7 +2,7 @@
  * Projekt:  Etteande automatiseerimine
  * Autor:    Tauno Erik
  * Algus:    2025.06.26
- * Muudetud: 2025.07.20
+ * Muudetud: 2025.07.23
  */
 #include <Arduino.h>
 
@@ -64,18 +64,19 @@ bool is_details();
 // Olekud
 **************************************************/
 enum State {
-  IDLE,             // Ootab
-  ASK_NEW_DETAILS,  // Ütle robotile
-  MOVE_FORWARD,     // Mootorid liiguvad
-  PUSH,             // Relee lülitatud
-  ERROR,            // Viga
-  IS_DETAILS    // Kas on uus detail?
+  IDLE,             // 0 Ootab
+  ASK_NEW_DETAILS,  // 1 Ütle robotile
+  MOVE_FORWARD,     // 2 Mootorid liiguvad
+  PUSH,             // 3 Relee lülitatud
+  VIGA,             // 4 Viga
+  IS_DETAILS        // 5 Kas on uus detail?
 };
 
 // Init state
 static State current_state = IDLE;
 
 static unsigned int counter = 0;
+static bool status = true;
 
 void setup() {
   Serial.begin(115200);
@@ -89,13 +90,13 @@ void setup() {
 }
 
 void loop() {
-  Serial.print("current_state: ");
-  Serial.println(current_state);
-  delay(1000);  // Delay for readability
+  //Serial.print("current_state: ");
+  //Serial.println(current_state);
+  //delay(1000);  // Delay for readability
 
   // Olekumasin ////////////////////////////////////
   switch (current_state) {
-    case IDLE:
+    case IDLE: //0
       // Oota
       Serial.println("masina: olek: OOTA");
       delay(1000);
@@ -104,17 +105,19 @@ void loop() {
       Serial.println("x");
       break;
 
-    case ASK_NEW_DETAILS:
+    case ASK_NEW_DETAILS: //1
       Serial.println("masina: olek: KÜSI ROBERTALT");
       // TODO:
-      bool robot_status = ask_from_robot();
+      status = ask_from_robot();
       //delay(2000);
-
       // Järgmine samm:
-      current_state = IS_DETAILS;
+      if (status == true) {
+        current_state = IS_DETAILS;
+      }
+      
       break;
 
-    case MOVE_FORWARD:
+    case MOVE_FORWARD: //2
       Serial.println("masina: olek: LIIGUTA EDASI");
       // Liiguta edasi mootoreid
       run_step_motor(FORWARD, 1000, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
@@ -126,25 +129,27 @@ void loop() {
       current_state = PUSH;
       break;
 
-    case PUSH:
+    case PUSH: //3
       Serial.println("masina: olek: LÜKKA");
       relee_ON();
       delay(2000);
       relee_OFF();
+      counter++;
+      Serial.print("Loendur: ");
+      Serial.println(counter);
       // Järgmine samm:
       current_state = IS_DETAILS;
       break;
     
-    case ERROR:
+    case VIGA: //4
       // Viga
       Serial.println("masina: olek: VIGA");
       current_state = IDLE; // Näiteks muudame tagasi ootama
       break;
 
-    case IS_DETAILS:
+    case IS_DETAILS: //5
       Serial.print("masina: olek: KAS ON DETAILE: ");
-      bool status = is_details();
-
+      status = is_details();
       // Järgmine samm:
       if(status == true) {
         current_state = MOVE_FORWARD;
