@@ -55,6 +55,8 @@ void push_relee_OFF();
 /*************************************************
  Küsi robotilt
 **************************************************/
+#define ROBOTI_SIGNAALI_AEG 100  // ms
+#define ROBOTI_DETAILIDE_TOOMISE_AEG 5000  // ms
 const int ROBOT_PIN = 10; // D10
 void init_ask_from_robot();
 bool ask_from_robot();
@@ -252,8 +254,9 @@ void init_ask_from_robot() {
 bool ask_from_robot() {
   Serial.println("Küsin ROBERTALT");
   digitalWrite(ROBOT_PIN, HIGH);
-  delay(100);
+  delay(ROBOTI_SIGNAALI_AEG);
   digitalWrite(ROBOT_PIN, LOW);
+  delay(ROBOTI_DETAILIDE_TOOMISE_AEG);
   return true;
 }
 
