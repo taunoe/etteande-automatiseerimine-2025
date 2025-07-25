@@ -41,7 +41,7 @@ unsigned long right_release_time = 0;
 void init_switches(int left_pin, int right_pin);
 
 /*************************************************
-Lükamise relee
+Lükkamise relee
 **************************************************/
 #define LYKKAMISE_AEG    3100  // ms
 #define TAGASITULEKU_AEG 5000  // ms
