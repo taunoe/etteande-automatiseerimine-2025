@@ -2,7 +2,7 @@
  * Projekt:  Etteande automatiseerimine
  * Autor:    Tauno Erik
  * Algus:    2025.06.26
- * Muudetud: 2025.07.23
+ * Muudetud: 2025.07.25
  */
 #include <Arduino.h>
 
@@ -11,10 +11,10 @@
  Samm-mootorid
 **************************************************/
 // Mootori suund
-#define CW      0  // clockwise
 #define FORWARD 1
-#define CCW     1  // counterclockwise
 #define BACK    0
+#define EDASI_AEG 350  // ms
+#define TAGASI_AEG 50  // ms
 // Motor 1 pins
 const int M1_PULSE_PIN = 2;      // D2
 const int M1_DIRECTION_PIN = 3;  // D3
@@ -41,8 +41,10 @@ unsigned long right_release_time = 0;
 void init_switches(int left_pin, int right_pin);
 
 /*************************************************
- Push Relee
+Lükamise relee
 **************************************************/
+#define LYKKAMISE_AEG    3100  // ms
+#define TAGASITULEKU_AEG 5000  // ms
 // Pins
 const int PUSH_RELEE_PIN = 9;  // D9
 // Function prototypes
@@ -123,10 +125,10 @@ void loop() {
     case MOVE_FORWARD: //2
       Serial.println("masina olek: LIIGUTA EDASI");
       // Liiguta edasi mootoreid
-      run_step_motor(FORWARD, 350, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
+      run_step_motor(FORWARD, EDASI_AEG, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
       delay(100);
       // Liiguta mootoreid nõks tagasi
-      run_step_motor(BACK, 50, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
+      run_step_motor(BACK, TAGASI_AEG, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
       delay(100);
       // Järgmine samm:
       current_state = PUSH;
@@ -135,9 +137,9 @@ void loop() {
     case PUSH: //3
       Serial.println("masina olek: LÜKKA");
       push_relee_ON();
-      delay(3100);
+      delay(LYKKAMISE_AEG);
       push_relee_OFF();
-      delay(5000);
+      delay(TAGASITULEKU_AEG);
       counter++;
       Serial.print("--------Loendur: ");
       Serial.println(counter);
@@ -250,7 +252,7 @@ void init_ask_from_robot() {
 bool ask_from_robot() {
   Serial.println("Küsin ROBERTALT");
   digitalWrite(ROBOT_PIN, HIGH);
-  delay(1000);
+  delay(100);
   digitalWrite(ROBOT_PIN, LOW);
   return true;
 }
