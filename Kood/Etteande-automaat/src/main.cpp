@@ -2,10 +2,9 @@
  * Projekt:  Etteande automatiseerimine
  * Autor:    Tauno Erik
  * Algus:    2025.06.26
- * Muudetud: 2025.07.25
+ * Muudetud: 2025.07.30
  */
 #include <Arduino.h>
-
 
 /*************************************************
  Samm-mootorid
@@ -13,8 +12,9 @@
 // Mootori suund
 #define FORWARD 1
 #define BACK    0
-#define EDASI_AEG 350  // ms
-#define TAGASI_AEG 50  // ms
+// Delays
+#define EDASI_AEG  350  // ms
+#define TAGASI_AEG  50  // ms
 // Motor 1 pins
 const int M1_PULSE_PIN = 2;      // D2
 const int M1_DIRECTION_PIN = 3;  // D3
@@ -26,23 +26,10 @@ void run_step_motor(int dir, int steps, int speed, int pulse_pin, int direction_
 //void run(int speed, int pulse_pin);
 
 
-
-/*************************************************
- Lülitid
-**************************************************/
-// Pins
-const int LEFT_BTN_PIN = 7;   // D7
-const int RIGHT_BTN_PIN = 8;  // D8
-// Timing
-const unsigned long RELEASE_WINDOW = 200;  // milliseconds
-unsigned long left_release_time = 0;
-unsigned long right_release_time = 0;
-
-void init_switches(int left_pin, int right_pin);
-
 /*************************************************
 Lükkamise relee
 **************************************************/
+// Delays
 #define LYKKAMISE_AEG    3100  // ms
 #define TAGASITULEKU_AEG 5000  // ms
 // Pins
@@ -57,25 +44,38 @@ void push_relee_OFF();
 **************************************************/
 #define ROBOTI_SIGNAALI_AEG 100  // ms
 #define ROBOTI_DETAILIDE_TOOMISE_AEG 5000  // ms
+// Pins
 const int ROBOT_PIN = 10; // D10
+// Function prototypes
 void init_ask_from_robot();
 bool ask_from_robot();
 
-/*
-Nuppud
-*/
-bool is_details();
 
 /*************************************************
-// Olekud
+ Lülitid
+**************************************************/
+// Pins
+const int LEFT_BTN_PIN = 7;   // D7
+const int RIGHT_BTN_PIN = 8;  // D8
+// Timing
+const unsigned long RELEASE_WINDOW = 200;  // milliseconds
+unsigned long left_release_time = 0;
+unsigned long right_release_time = 0;
+// Function prototypes
+void init_switches(int left_pin, int right_pin);
+bool is_details();
+
+
+/*************************************************
+ Olekud
 **************************************************/
 enum State {
   IDLE,             // 0 Ootab
   ASK_NEW_DETAILS,  // 1 Ütle robotile
   MOVE_FORWARD,     // 2 Mootorid liiguvad
-  PUSH,             // 3 Relee lülitatud
+  PUSH,             // 3 Lükkamise relee lülitatud
   VIGA,             // 4 Viga
-  IS_DETAILS        // 5 Kas on uus detail?
+  IS_DETAILS        // 5 Kas on uusi detail?
 };
 
 // Init state
@@ -91,17 +91,13 @@ void setup() {
   init_motor();
   // Lülitid
   init_switches(LEFT_BTN_PIN, RIGHT_BTN_PIN);
-  // Lükkamise Relee
+  // Lükkamise relee
   init_push_relee();
-
+  // Roboti relee
   init_ask_from_robot();
 }
 
 void loop() {
-  //Serial.print("current_state: ");
-  //Serial.println(current_state);
-  //delay(1000);  // Delay for readability
-
   // Olekumasin ////////////////////////////////////
   switch (current_state) {
     case IDLE: //0
@@ -121,7 +117,6 @@ void loop() {
       if (status == true) {
         current_state = IS_DETAILS;
       }
-      
       break;
 
     case MOVE_FORWARD: //2
@@ -145,19 +140,19 @@ void loop() {
       counter++;
       Serial.print("--------Loendur: ");
       Serial.println(counter);
-      // Järgmine samm:
+      // Järgmine olek:
       current_state = IS_DETAILS;
       break;
     
     case VIGA: //4
       Serial.println("masina olek: VIGA");
-      current_state = IDLE; // Näiteks muudame tagasi ootama
+      // Järgmine olek:
+      current_state = IDLE;
       break;
 
     case IS_DETAILS: //5
-      //Serial.print("masina: olek: KAS ON DETAILE: ");
       status = is_details();
-      // Järgmine samm:
+      // Järgmine olek:
       if(status == true) {
         current_state = MOVE_FORWARD;
         Serial.println("masina olek: KAS ON DETAILE: JAH");
@@ -251,6 +246,8 @@ void init_ask_from_robot() {
   Serial.println("Roboti pin seadistatud!");
 }
 
+/*
+*/
 bool ask_from_robot() {
   Serial.println("Küsin ROBERTALT");
   digitalWrite(ROBOT_PIN, HIGH);
@@ -260,6 +257,10 @@ bool ask_from_robot() {
   return true;
 }
 
+/*
+return: false - Kui üks nuppudest on alla vajutamata
+return: true  - Mõlemad nuppud allvajutatud
+*/
 bool is_details() {
   // Lülitid ////////////////////////////////////////////////
   bool left_btn_state = digitalRead(LEFT_BTN_PIN);
