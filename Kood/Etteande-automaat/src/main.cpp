@@ -7,75 +7,62 @@
 #include <Arduino.h>
 
 /*************************************************
- Samm-mootorid
+ Seaded
 **************************************************/
-// Mootori suund
-#define FORWARD 1
-#define BACK    0
-// Delays
-#define EDASI_AEG  450  // ms
-#define TAGASI_AEG  80  // ms
-// Motor 1 pins
-const int M1_PULSE_PIN = 2;      // D2
-const int M1_DIRECTION_PIN = 3;  // D3
-// Speed of the motor
-const int M1_SPEED = 500;
-// Function prototypes
-void init_motor();
-void run_step_motor(int dir, int steps, int speed, int pulse_pin, int direction_pin);
-//void run(int speed, int pulse_pin);
+// Aja seaded:
+#define MOOTORI_EDASI_AEG    450  // ms
+#define MOOTORI_TAGASI_AEG    80  // ms
 
+#define LYKKAMISE_AEG       3100  // ms
+#define TAGASITULEKU_AEG    5000  // ms
+
+#define ROBOTI_SIGNAALI_AEG  100  // ms
+#define ROBOTI_TOOMISE_AEG  5000  // ms
+// Ultraheli anduri:
+#define MAX_DETAILI_KAUGUS  15.0  // cm
+#define MIN_DETAILI_KAUGUS  18.0  // cm
+
+// Pinnid:
+const int M1_PULSE_PIN     =  2;  // Mootor
+const int M1_DIRECTION_PIN =  3;  // Mootor
+const int LEFT_BTN_PIN     =  7;  // Limit Switch
+const int RIGHT_BTN_PIN    =  8;  // Limit Switch
+const int PUSH_RELEE_PIN   =  9;  // 
+const int ROBOT_PIN        = 10;  // 
+const int US1_TRIG_PIN     = 11;  // Ultraheli
+const int US1_ECHO_PIN     = 12;  // Ultraheli
+
+#define FORWARD 1  // Mootori suund
+#define BACK    0  // Mootori suund
+const int M1_SPEED = 500;  // Mootori kiirus
+
+const unsigned long RELEASE_WINDOW = 200;  // Lülitid
+unsigned long left_release_time = 0;  // Lülitid
+unsigned long right_release_time = 0;  // Lülitid
+
+static unsigned int counter = 0;
+static bool status = true;
 
 /*************************************************
-Lükkamise relee
+ Function prototypes
 **************************************************/
-// Delays
-#define LYKKAMISE_AEG    3100  // ms
-#define TAGASITULEKU_AEG 5000  // ms
-// Pins
-const int PUSH_RELEE_PIN = 9;  // D9
-// Function prototypes
+// Mootorid
+void init_motor();
+void run_step_motor(int dir, int steps, int speed, int pulse_pin, int direction_pin);
+// Lükkamise relee
 void init_push_relee();
 void push_relee_ON();
 void push_relee_OFF();
-
-/*************************************************
- Küsi robotilt
-**************************************************/
-#define ROBOTI_SIGNAALI_AEG 100  // ms
-#define ROBOTI_DETAILIDE_TOOMISE_AEG 5000  // ms
-// Pins
-const int ROBOT_PIN = 10; // D10
-// Function prototypes
+// Küsi robotilt
 void init_ask_from_robot();
 bool ask_from_robot();
-
-
-/*************************************************
- Lülitid
-**************************************************/
-// Pins
-const int LEFT_BTN_PIN = 7;   // D7
-const int RIGHT_BTN_PIN = 8;  // D8
-// Timing
-const unsigned long RELEASE_WINDOW = 200;  // milliseconds
-unsigned long left_release_time = 0;
-unsigned long right_release_time = 0;
-// Function prototypes
+// Lülitid
 void init_switches(int left_pin, int right_pin);
 bool is_details();
-
-/*************************************************
- Ultraheli andur
-**************************************************/
-#define MAX_DETAILI_KAUGUS 15.0 // cm
-#define MIN_DETAILI_KAUGUS 18.0 // cm
-// Pins
-const int US1_TRIG_PIN = 11;
-const int US1_ECHO_PIN = 12;
-// Function prototypes
+// Ultraheli andur
 void init_ultrasound(int trig_pin, int echo_pin);
 float measure_distance(int trig_pin, int echo_pin);
+
 
 /*************************************************
  Olekud
@@ -92,9 +79,6 @@ enum State {
 // Init state
 static State current_state = IDLE;
 
-static unsigned int counter = 0;
-static bool status = true;
-
 void setup() {
   Serial.begin(115200);
 
@@ -106,7 +90,7 @@ void setup() {
   init_push_relee();
   // Roboti relee
   init_ask_from_robot();
-
+  // Ultraheli kaugusandur
   init_ultrasound(US1_TRIG_PIN, US1_ECHO_PIN);
 }
 
@@ -135,10 +119,10 @@ void loop() {
     case MOVE_FORWARD: //2
       Serial.println("masina olek: LIIGUTA EDASI");
       // Liiguta edasi mootoreid
-      run_step_motor(FORWARD, EDASI_AEG, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
+      run_step_motor(FORWARD, MOOTORI_EDASI_AEG, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
       delay(100);
       // Liiguta mootoreid nõks tagasi
-      run_step_motor(BACK, TAGASI_AEG, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
+      run_step_motor(BACK, MOOTORI_TAGASI_AEG, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
       delay(100);
       // Järgmine samm:
       current_state = PUSH;
@@ -266,7 +250,7 @@ bool ask_from_robot() {
   digitalWrite(ROBOT_PIN, HIGH);
   delay(ROBOTI_SIGNAALI_AEG);
   digitalWrite(ROBOT_PIN, LOW);
-  delay(ROBOTI_DETAILIDE_TOOMISE_AEG);
+  delay(ROBOTI_TOOMISE_AEG);
   return true;
 }
 
