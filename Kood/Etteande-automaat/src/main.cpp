@@ -19,8 +19,8 @@
 #define ROBOTI_SIGNAALI_AEG  100  // ms
 #define ROBOTI_TOOMISE_AEG  5000  // ms
 // Ultraheli anduri:
-#define MAX_DETAILI_KAUGUS  19.0  // cm
-#define MIN_DETAILI_KAUGUS  15.0  // cm
+#define MAX_DETAILI_KAUGUS  19.0  // cm ultraheli andurist
+#define MIN_DETAILI_KAUGUS  15.0  // cm ultraheli andurist
 
 // Pinnid:
 const int M1_PULSE_PIN     =  2;  // Mootor
@@ -40,7 +40,8 @@ const unsigned long RELEASE_WINDOW = 200;  // Lülitid
 unsigned long left_release_time = 0;  // Lülitid
 unsigned long right_release_time = 0;  // Lülitid
 
-static unsigned int counter = 0;
+static unsigned int loendur_kokku = 0;
+static unsigned int loendur_viimased = 5; // Viimased detailid masinas
 static bool status = true;
 
 /*************************************************
@@ -99,14 +100,14 @@ void loop() {
   switch (current_state) {
     case IDLE: //0
       // Oota
-      Serial.println("masina olek: OOTA");
+      Serial.println("OOTA");
       delay(1000);
       // Järgmine samm:
       current_state = IS_DETAILS;
       break;
 
     case ASK_NEW_DETAILS: //1
-      Serial.println("masina olek: KÜSI ROBERTALT");
+      Serial.println("KÜSI ROBERTALT");
       // TODO:
       status = ask_from_robot();
       //delay(2000);
@@ -117,7 +118,7 @@ void loop() {
       break;
 
     case MOVE_FORWARD: //2
-      Serial.println("masina olek: LIIGUTA EDASI");
+      Serial.println("LIIGUTA EDASI");
       // Liiguta edasi mootoreid
       run_step_motor(FORWARD, MOOTORI_EDASI_AEG, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
       delay(100);
@@ -129,20 +130,21 @@ void loop() {
       break;
 
     case PUSH: //3
-      Serial.println("masina olek: LÜKKA");
+      Serial.println("LÜKKA");
       push_relee_ON();
       delay(LYKKAMISE_AEG);
       push_relee_OFF();
       delay(TAGASITULEKU_AEG);
-      counter++;
-      Serial.print("--------Loendur: ");
-      Serial.println(counter);
+      loendur_kokku++;
+      Serial.print("Kokku lükkatud: ");
+      Serial.print(loendur_kokku);
+      Serial.print(" detaili\n");
       // Järgmine olek:
       current_state = IS_DETAILS;
       break;
     
     case VIGA: //4
-      Serial.println("masina olek: VIGA");
+      Serial.println("VIGA");
       // Järgmine olek:
       current_state = IDLE;
       break;
@@ -152,11 +154,18 @@ void loop() {
       // Järgmine olek:
       if(status == true) {
         current_state = MOVE_FORWARD;
-        Serial.println("masina olek: KAS ON DETAILE: JAH");
+        Serial.println("KAS ON DETAILE: JAH");
+      }
+      // Käivitub loendur: 5 viimast detaili
+      else if (loendur_viimased > 0) {
+        Serial.print("Viimased ");
+        Serial.print(loendur_viimased);
+        Serial.print(" detaili!\n");
+        loendur_viimased--;
       }
       else {
         current_state = ASK_NEW_DETAILS;
-        Serial.println("masina olek: KAS ON DETAILE: EI");
+        Serial.println("KAS ON DETAILE: EI");
       }
       break;
   }  // switch end
@@ -298,9 +307,10 @@ void init_ultrasound(int trig_pin, int echo_pin) {
   Serial.println("Ultraheli seadistatud!");
 }
 
-/*
+/*********************************************************
+ Ultraheli kauguse mõõtmine
  returns distance cm float
-*/
+**********************************************************/
 float measure_distance(int trig_pin, int echo_pin) {
   // Clear trigger
   digitalWrite(trig_pin, LOW);
