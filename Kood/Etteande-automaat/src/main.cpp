@@ -19,8 +19,8 @@
 #define ROBOTI_SIGNAALI_AEG  100  // ms
 #define ROBOTI_TOOMISE_AEG  5000  // ms
 // Ultraheli anduri:
-#define MAX_DETAILI_KAUGUS  15.0  // cm
-#define MIN_DETAILI_KAUGUS  18.0  // cm
+#define MAX_DETAILI_KAUGUS  19.0  // cm
+#define MIN_DETAILI_KAUGUS  15.0  // cm
 
 // Pinnid:
 const int M1_PULSE_PIN     =  2;  // Mootor
