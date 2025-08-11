@@ -75,7 +75,7 @@ const int US1_TRIG_PIN = 11;
 const int US1_ECHO_PIN = 12;
 // Function prototypes
 void init_ultrasound(int trig_pin, int echo_pin);
-float measure_distance(int trig_pin, int echo_pin):
+float measure_distance(int trig_pin, int echo_pin);
 
 /*************************************************
  Olekud
@@ -292,9 +292,9 @@ bool is_details() {
   */
   float kaugus = measure_distance(US1_TRIG_PIN, US1_ECHO_PIN);
   Serial.print("Kaugus: ");
-  Serial.print(Kaugus);
+  Serial.print(kaugus);
 
-  if kaugus < MAX_DETAILI_KAUGUS && kaugus > MIN_DETAILI_KAUGUS {
+  if (kaugus < MAX_DETAILI_KAUGUS && kaugus > MIN_DETAILI_KAUGUS) {
     Serial.print(" -  Hea!\n");
     return true;
   }
