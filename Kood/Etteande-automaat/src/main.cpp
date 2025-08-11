@@ -106,6 +106,8 @@ void setup() {
   init_push_relee();
   // Roboti relee
   init_ask_from_robot();
+
+  init_ultrasound(US1_TRIG_PIN, US1_ECHO_PIN);
 }
 
 void loop() {
