@@ -2,7 +2,7 @@
  * Projekt:  Etteande automatiseerimine
  * Autor:    Tauno Erik
  * Algus:    2025.06.26
- * Muudetud: 2025.07.30
+ * Muudetud: 2025.08.11
  */
 #include <Arduino.h>
 
@@ -13,8 +13,8 @@
 #define FORWARD 1
 #define BACK    0
 // Delays
-#define EDASI_AEG  350  // ms
-#define TAGASI_AEG  50  // ms
+#define EDASI_AEG  450  // ms
+#define TAGASI_AEG  80  // ms
 // Motor 1 pins
 const int M1_PULSE_PIN = 2;      // D2
 const int M1_DIRECTION_PIN = 3;  // D3
@@ -65,6 +65,17 @@ unsigned long right_release_time = 0;
 void init_switches(int left_pin, int right_pin);
 bool is_details();
 
+/*************************************************
+ Ultraheli andur
+**************************************************/
+#define MAX_DETAILI_KAUGUS 15.0 // cm
+#define MIN_DETAILI_KAUGUS 18.0 // cm
+// Pins
+const int US1_TRIG_PIN = 11;
+const int US1_ECHO_PIN = 12;
+// Function prototypes
+void init_ultrasound(int trig_pin, int echo_pin);
+float measure_distance(int trig_pin, int echo_pin):
 
 /*************************************************
  Olekud
@@ -75,7 +86,7 @@ enum State {
   MOVE_FORWARD,     // 2 Mootorid liiguvad
   PUSH,             // 3 Lükkamise relee lülitatud
   VIGA,             // 4 Viga
-  IS_DETAILS        // 5 Kas on uusi detail?
+  IS_DETAILS        // 5 Kas on uusi detaile?
 };
 
 // Init state
@@ -262,6 +273,7 @@ return: false - Kui üks nuppudest on alla vajutamata
 return: true  - Mõlemad nuppud allvajutatud
 */
 bool is_details() {
+  /*
   // Lülitid ////////////////////////////////////////////////
   bool left_btn_state = digitalRead(LEFT_BTN_PIN);
   bool right_btn_state = digitalRead(RIGHT_BTN_PIN);
@@ -277,8 +289,49 @@ bool is_details() {
     Serial.println("Parem nupp vabastatud");
     return false;
   }
+  */
+  float kaugus = measure_distance(US1_TRIG_PIN, US1_ECHO_PIN);
+  Serial.print("Kaugus: ");
+  Serial.print(Kaugus);
 
-  return true;
+  if kaugus < MAX_DETAILI_KAUGUS && kaugus > MIN_DETAILI_KAUGUS {
+    Serial.print(" -  Hea!\n");
+    return true;
+  }
+
+  Serial.print(" -  Halb!\n");
+  return false;
+}
+
+
+/*
+*/
+void init_ultrasound(int trig_pin, int echo_pin) {
+  pinMode(trig_pin, OUTPUT);
+  pinMode(echo_pin, INPUT);
+  Serial.println("Ultraheli seadistatud!");
+}
+
+/*
+ returns distance cm float
+*/
+float measure_distance(int trig_pin, int echo_pin) {
+  // Clear trigger
+  digitalWrite(trig_pin, LOW);
+  delayMicroseconds(2);
+
+  // Send 10µs pulse to trigger
+  digitalWrite(trig_pin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig_pin, LOW);
+
+  // Measure the echo pulse length
+  long duration = pulseIn(echo_pin, HIGH);
+
+  // Calculate distance in centimeters
+  float distance_cm = duration * 0.0343 / 2;
+
+  return distance_cm;
 }
 
 /*

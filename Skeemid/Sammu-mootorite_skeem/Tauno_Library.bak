@@ -98,19 +98,19 @@
 					(type none)
 				)
 			)
-			(rectangle
-				(start 0 3.81)
-				(end -31.75 -38.1)
-				(stroke
-					(width 0)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
 		)
 		(symbol "Driver_TB6600_1_1"
+			(rectangle
+				(start -31.75 3.81)
+				(end 0 -38.1)
+				(stroke
+					(width 0)
+					(type solid)
+				)
+				(fill
+					(type background)
+				)
+			)
 			(text "Driver"
 				(at -26.67 5.842 0)
 				(effects
@@ -370,6 +370,172 @@
 		)
 		(embedded_fonts no)
 	)
+	(symbol "HC-SR04"
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(property "Reference" "U"
+			(at -8.382 3.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "HC-SR04_1_1"
+			(rectangle
+				(start 0 8.89)
+				(end 15.24 -26.67)
+				(stroke
+					(width 0)
+					(type solid)
+				)
+				(fill
+					(type background)
+				)
+			)
+			(circle
+				(center 7.62 1.27)
+				(radius 4.5791)
+				(stroke
+					(width 0)
+					(type solid)
+				)
+				(fill
+					(type color)
+					(color 194 194 194 1)
+				)
+			)
+			(circle
+				(center 7.62 -19.05)
+				(radius 4.5791)
+				(stroke
+					(width 0)
+					(type solid)
+				)
+				(fill
+					(type color)
+					(color 194 194 194 1)
+				)
+			)
+			(text "HC-SR04"
+				(at 12.7 -9.144 900)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(pin power_in line
+				(at -2.54 -5.08 0)
+				(length 2.54)
+				(name "VCC"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -2.54 -7.62 0)
+				(length 2.54)
+				(name "Trig"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin output line
+				(at -2.54 -10.16 0)
+				(length 2.54)
+				(name "Echo"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at -2.54 -12.7 0)
+				(length 2.54)
+				(name "Gnd"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
 	(symbol "Relee_Moodul"
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -418,17 +584,6 @@
 			)
 		)
 		(symbol "Relee_Moodul_0_1"
-			(rectangle
-				(start -10.16 6.35)
-				(end 10.16 -6.35)
-				(stroke
-					(width 0)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
 			(arc
 				(start 0 2.54)
 				(mid 0.6323 1.905)
@@ -539,6 +694,17 @@
 			)
 		)
 		(symbol "Relee_Moodul_1_1"
+			(rectangle
+				(start -10.16 6.35)
+				(end 10.16 -6.35)
+				(stroke
+					(width 0)
+					(type solid)
+				)
+				(fill
+					(type background)
+				)
+			)
 			(pin input line
 				(at -12.7 2.54 0)
 				(length 2.54)
@@ -650,6 +816,104 @@
 		)
 		(embedded_fonts no)
 	)
+	(symbol "Relee_Õhu"
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(property "Reference" "U"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "Relee_Õhu_1_1"
+			(rectangle
+				(start -20.32 0)
+				(end 0 -8.89)
+				(stroke
+					(width 0)
+					(type solid)
+				)
+				(fill
+					(type background)
+				)
+			)
+			(pin power_in line
+				(at 2.54 -2.54 180)
+				(length 2.54)
+				(name "COM"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 2.54 -6.35 180)
+				(length 2.54)
+				(name "NO"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
 	(symbol "Sammu-mootor"
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -698,17 +962,6 @@
 			)
 		)
 		(symbol "Sammu-mootor_0_1"
-			(rectangle
-				(start 2.54 2.54)
-				(end 24.13 -19.05)
-				(stroke
-					(width 0)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
 			(circle
 				(center 13.97 -7.62)
 				(radius 1.7961)
@@ -722,6 +975,17 @@
 			)
 		)
 		(symbol "Sammu-mootor_1_1"
+			(rectangle
+				(start 2.54 2.54)
+				(end 24.13 -19.05)
+				(stroke
+					(width 0)
+					(type solid)
+				)
+				(fill
+					(type background)
+				)
+			)
 			(text "17HS8401"
 				(at 13.716 0.508 0)
 				(effects
@@ -893,19 +1157,19 @@
 					(type none)
 				)
 			)
-			(rectangle
-				(start 0 0)
-				(end -53.34 -33.02)
-				(stroke
-					(width 0)
-					(type default)
-				)
-				(fill
-					(type none)
-				)
-			)
 		)
 		(symbol "Toiteplokk_1_1"
+			(rectangle
+				(start -53.34 0)
+				(end 0 -33.02)
+				(stroke
+					(width 0)
+					(type solid)
+				)
+				(fill
+					(type background)
+				)
+			)
 			(text "TOITEPLOKK\nS-250-24"
 				(at -51.054 -3.81 0)
 				(effects
@@ -1145,20 +1409,18 @@
 				(hide yes)
 			)
 		)
-		(symbol "Toiteplokk_12v_0_1"
+		(symbol "Toiteplokk_12v_1_1"
 			(rectangle
 				(start -10.16 -1.27)
 				(end 19.05 -13.97)
 				(stroke
 					(width 0)
-					(type default)
+					(type solid)
 				)
 				(fill
-					(type none)
+					(type background)
 				)
 			)
-		)
-		(symbol "Toiteplokk_12v_1_1"
 			(text "INPUT:\n240VAC"
 				(at -6.604 -7.112 0)
 				(effects
