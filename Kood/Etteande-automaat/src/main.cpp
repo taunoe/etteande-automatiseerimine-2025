@@ -47,16 +47,20 @@ static bool status = true;
 /*************************************************
  Function prototypes
 **************************************************/
+void oota(int aeg);
+void lykka();
+void kass_on();
 // Mootorid
 void init_motor();
 void run_step_motor(int dir, int steps, int speed, int pulse_pin, int direction_pin);
+void liiguta_edasi();
 // Lükkamise relee
 void init_push_relee();
 void push_relee_ON();
 void push_relee_OFF();
 // Küsi robotilt
 void init_ask_from_robot();
-bool ask_from_robot();
+void ask_from_robot();
 // Lülitid
 void init_switches(int left_pin, int right_pin);
 bool is_details();
@@ -69,16 +73,17 @@ float measure_distance(int trig_pin, int echo_pin);
  Olekud
 **************************************************/
 enum State {
-  IDLE,             // 0 Ootab
-  ASK_NEW_DETAILS,  // 1 Ütle robotile
-  MOVE_FORWARD,     // 2 Mootorid liiguvad
-  PUSH,             // 3 Lükkamise relee lülitatud
-  VIGA,             // 4 Viga
-  IS_DETAILS        // 5 Kas on uusi detaile?
+  OOTA,    // 0 Ootab
+  KYSI,    // 1 Ütle robotile
+  EDASI,   // 2 Mootorid liiguvad
+  LYKKA,   // 3 Lükkamise relee lülitatud
+  VIGA,    // 4 Viga
+  KAS_ON,  // 5 Kas on uusi detaile?
+  VIIMASED // 6
 };
 
 // Init state
-static State current_state = IDLE;
+static State next_step = OOTA;
 
 void setup() {
   Serial.begin(115200);
@@ -97,75 +102,58 @@ void setup() {
 
 void loop() {
   // Olekumasin ////////////////////////////////////
-  switch (current_state) {
-    case IDLE: //0
-      // Oota
-      Serial.println("OOTA");
-      delay(1000);
-      // Järgmine samm:
-      current_state = IS_DETAILS;
+  switch (next_step) {
+    case OOTA: //0
+      oota(1000);
+      next_step = KAS_ON;
       break;
 
-    case ASK_NEW_DETAILS: //1
-      Serial.println("KÜSI ROBERTALT");
-      // TODO:
-      status = ask_from_robot();
-      //delay(2000);
-      // Järgmine samm:
-      if (status == true) {
-        current_state = IS_DETAILS;
-      }
+    case KYSI: //1
+      ask_from_robot();
+      next_step = KAS_ON;
       break;
 
-    case MOVE_FORWARD: //2
-      Serial.println("LIIGUTA EDASI");
-      // Liiguta edasi mootoreid
-      run_step_motor(FORWARD, MOOTORI_EDASI_AEG, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
-      delay(100);
-      // Liiguta mootoreid nõks tagasi
-      run_step_motor(BACK, MOOTORI_TAGASI_AEG, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
-      delay(100);
-      // Järgmine samm:
-      current_state = PUSH;
+    case EDASI: //2
+      liiguta_edasi();
+      next_step = LYKKA;
       break;
 
-    case PUSH: //3
-      Serial.println("LÜKKA");
-      push_relee_ON();
-      delay(LYKKAMISE_AEG);
-      push_relee_OFF();
-      delay(TAGASITULEKU_AEG);
-      loendur_kokku++;
-      Serial.print("Kokku lükkatud: ");
-      Serial.print(loendur_kokku);
-      Serial.print(" detaili\n");
-      // Järgmine olek:
-      current_state = IS_DETAILS;
+    case LYKKA: //3
+      lykka();
+      next_step = KAS_ON;
       break;
     
     case VIGA: //4
       Serial.println("VIGA");
-      // Järgmine olek:
-      current_state = IDLE;
+      next_step = OOTA;
       break;
 
-    case IS_DETAILS: //5
+    case KAS_ON: //5
       status = is_details();
       // Järgmine olek:
       if(status == true) {
-        current_state = MOVE_FORWARD;
-        Serial.println("KAS ON DETAILE: JAH");
+        next_step = EDASI;
+        Serial.println("KAS ON UUSI DETAILE: JAH");
       }
-      // Käivitub loendur: 5 viimast detaili
-      else if (loendur_viimased > 0) {
+      else {
+        next_step = VIIMASED;
+        Serial.println("KAS ON UUSI DETAILE: EI");
+      }
+      break;
+    
+    case VIIMASED:
+       // Käivitub loendur: 5 viimast detaili
+      if (loendur_viimased > 0) {
         Serial.print("Viimased ");
         Serial.print(loendur_viimased);
         Serial.print(" detaili!\n");
+        // Küsi robotilt
+        Serial.println("Ütken ROBOTILE");
+        digitalWrite(ROBOT_PIN, HIGH);
+        delay(ROBOTI_SIGNAALI_AEG);
+        // Pärast seda
+        next_step = LYKKA;
         loendur_viimased--;
-      }
-      else {
-        current_state = ASK_NEW_DETAILS;
-        Serial.println("KAS ON DETAILE: EI");
       }
       break;
   }  // switch end
@@ -254,13 +242,12 @@ void init_ask_from_robot() {
 
 /*
 */
-bool ask_from_robot() {
-  Serial.println("Küsin ROBERTALT");
+void ask_from_robot() {
+  Serial.println("Küsin ROBOTILT");
   digitalWrite(ROBOT_PIN, HIGH);
   delay(ROBOTI_SIGNAALI_AEG);
   digitalWrite(ROBOT_PIN, LOW);
   delay(ROBOTI_TOOMISE_AEG);
-  return true;
 }
 
 /*
@@ -328,6 +315,41 @@ float measure_distance(int trig_pin, int echo_pin) {
   float distance_cm = duration * 0.0343 / 2;
 
   return distance_cm;
+}
+
+void liiguta_edasi() {
+  Serial.println("LIIGUTA EDASI");
+  // Liiguta edasi mootoreid
+  run_step_motor(FORWARD, MOOTORI_EDASI_AEG, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
+  delay(100);
+  // Liiguta mootoreid nõks tagasi
+  run_step_motor(BACK, MOOTORI_TAGASI_AEG, M1_SPEED, M1_PULSE_PIN, M1_DIRECTION_PIN);
+  delay(100);
+}
+
+void oota(int aeg) {
+  Serial.println("OOTA");
+  delay(aeg);
+}
+
+
+void lykka() {
+  Serial.println("LÜKKA");
+
+  push_relee_ON();
+  delay(LYKKAMISE_AEG);
+
+  push_relee_OFF();
+  delay(TAGASITULEKU_AEG);
+
+  loendur_kokku++;
+  Serial.print("Kokku lükkatud: ");
+  Serial.print(loendur_kokku);
+  Serial.print(" detaili\n");
+}
+
+void kass_on() {
+
 }
 
 /*
