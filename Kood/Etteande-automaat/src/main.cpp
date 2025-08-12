@@ -19,7 +19,7 @@
 #define ROBOTI_SIGNAALI_AEG  100  // ms
 #define ROBOTI_TOOMISE_AEG  5000  // ms
 // Ultraheli anduri:
-#define MAX_DETAILI_KAUGUS  19.0  // cm ultraheli andurist
+#define MAX_DETAILI_KAUGUS  20.0  // cm ultraheli andurist
 #define MIN_DETAILI_KAUGUS  15.0  // cm ultraheli andurist
 
 // Pinnid:
@@ -346,7 +346,7 @@ void lykka() {
   Serial.print("Kokku lükkatud: ");
   Serial.print(loendur_kokku);
   Serial.print(" detaili\n");
-  
+
   Serial.print("Ootan nupu vajutust!\n");
   while (digitalRead(KOLVI_LIMIT_PIN) == LOW) {
     // Oota, kuni lüliti on vajutatud
