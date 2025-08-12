@@ -25,8 +25,8 @@
 // Pinnid:
 const int M1_PULSE_PIN     =  2;  // Mootor
 const int M1_DIRECTION_PIN =  3;  // Mootor
-const int KOLVI_LIMIT_PIN  =  7;  // Kolvi Limit Switch
-const int RIGHT_BTN_PIN    =  8;  // Limit Switch
+const int KOLVI_LIMIT_PIN  =  8;  // Kolvi Limit Switch
+const int RIGHT_BTN_PIN    =  7;  // Limit Switch
 const int PUSH_RELEE_PIN   =  9;  // 
 const int ROBOT_PIN        = 10;  // 
 const int US1_TRIG_PIN     = 11;  // Ultraheli
