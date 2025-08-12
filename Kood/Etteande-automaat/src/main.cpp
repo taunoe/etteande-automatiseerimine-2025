@@ -314,7 +314,10 @@ float measure_distance(int trig_pin, int echo_pin) {
   long duration = pulseIn(echo_pin, HIGH);
 
   // Calculate distance in centimeters
-  float distance_cm = duration * 0.0343 / 2;
+  // tmp_in_C = 21.0
+  // heli_kiirus = 331.1 + (0.606 * tmp_in_C) == 343.826
+  // distance_per_us = heli_kiirus / 10000.0 == 0.0343826
+  float distance_cm = duration * 0.0343 / 2; // Or divide by 29.1
 
   return distance_cm;
 }
