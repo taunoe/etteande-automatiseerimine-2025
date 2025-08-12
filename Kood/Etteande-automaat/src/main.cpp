@@ -40,16 +40,16 @@ const unsigned long RELEASE_WINDOW = 200;  // Lülitid
 unsigned long left_release_time = 0;  // Lülitid
 unsigned long right_release_time = 0;  // Lülitid
 
-static unsigned int loendur_kokku = 0;
+static unsigned int loendur_kokku = 0;    // Lükkatud detailid
 static unsigned int loendur_viimased = 5; // Viimased detailid masinas
 static bool status = true;
 
 /*************************************************
  Function prototypes
 **************************************************/
-void oota(int aeg);
-void lykka();
-void kass_on();
+void oota(int aeg);  // Olek
+void lykka();        // Olek
+void kass_on();      // Olek
 // Mootorid
 void init_motor();
 void run_step_motor(int dir, int steps, int speed, int pulse_pin, int direction_pin);
@@ -73,16 +73,16 @@ float measure_distance(int trig_pin, int echo_pin);
  Olekud
 **************************************************/
 enum State {
-  OOTA,    // 0 Ootab
-  KYSI,    // 1 Ütle robotile
-  EDASI,   // 2 Mootorid liiguvad
-  LYKKA,   // 3 Lükkamise relee lülitatud
-  VIGA,    // 4 Viga
-  KAS_ON,  // 5 Kas on uusi detaile?
-  VIIMASED // 6
+  OOTA,    // 0 - Ootab
+  KYSI,    // 1 - Ütle robotile
+  EDASI,   // 2 - Mootorid liiguvad
+  LYKKA,   // 3 - Lükkamise relee lülitatud
+  VIGA,    // 4 - Viga
+  KAS_ON,  // 5 - Kas on uusi detaile?
+  VIIMASED // 6 - Viimased detailid masinas
 };
 
-// Init state
+// Alg olek
 static State next_step = OOTA;
 
 void setup() {
@@ -134,6 +134,7 @@ void loop() {
       if(status == true) {
         next_step = EDASI;
         Serial.println("KAS ON UUSI DETAILE: JAH");
+        loendur_viimased = 5;
       }
       else {
         next_step = VIIMASED;
