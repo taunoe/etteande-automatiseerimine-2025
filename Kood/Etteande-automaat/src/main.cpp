@@ -2,7 +2,7 @@
  * Projekt:  Etteande automatiseerimine
  * Autor:    Tauno Erik
  * Algus:    2025.06.26
- * Muudetud: 2025.08.11
+ * Muudetud: 2025.08.12
  */
 #include <Arduino.h>
 
@@ -148,12 +148,14 @@ void loop() {
         Serial.print(loendur_viimased);
         Serial.print(" detaili!\n");
         // Küsi robotilt
-        Serial.println("Ütken ROBOTILE");
+        Serial.println("Ütlen ROBOTILE");
         digitalWrite(ROBOT_PIN, HIGH);
         delay(ROBOTI_SIGNAALI_AEG);
         // Pärast seda
         next_step = LYKKA;
         loendur_viimased--;
+      } else {
+        next_step = KYSI;
       }
       break;
   }  // switch end
