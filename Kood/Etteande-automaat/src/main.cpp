@@ -148,11 +148,11 @@ void loop() {
         Serial.print(loendur_viimased);
         Serial.print(" detaili!\n");
         // Küsi robotilt
-        Serial.println("Ütlen ROBOTILE");
+        Serial.println("Ütlen ROBOTILE"); // Mitu korda??
         digitalWrite(ROBOT_PIN, HIGH);
         delay(ROBOTI_SIGNAALI_AEG);
         // Pärast seda
-        next_step = LYKKA;
+        next_step = EDASI;
         loendur_viimased--;
       } else {
         next_step = KYSI;
@@ -347,6 +347,7 @@ void lykka() {
   Serial.print(loendur_kokku);
   Serial.print(" detaili\n");
   
+  Serial.print("Ootan nupu vajutust!\n");
   while (digitalRead(KOLVI_LIMIT_PIN) == LOW) {
     // Oota, kuni lüliti on vajutatud
     delay(1);
