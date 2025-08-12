@@ -25,7 +25,7 @@
 // Pinnid:
 const int M1_PULSE_PIN     =  2;  // Mootor
 const int M1_DIRECTION_PIN =  3;  // Mootor
-const int LEFT_BTN_PIN     =  7;  // Limit Switch
+const int KOLVI_LIMIT_PIN  =  7;  // Kolvi Limit Switch
 const int RIGHT_BTN_PIN    =  8;  // Limit Switch
 const int PUSH_RELEE_PIN   =  9;  // 
 const int ROBOT_PIN        = 10;  // 
@@ -49,7 +49,6 @@ static bool status = true;
 **************************************************/
 void oota(int aeg);  // Olek
 void lykka();        // Olek
-void kass_on();      // Olek
 // Mootorid
 void init_motor();
 void run_step_motor(int dir, int steps, int speed, int pulse_pin, int direction_pin);
@@ -91,7 +90,7 @@ void setup() {
   // Stepper motor pins
   init_motor();
   // Lülitid
-  init_switches(LEFT_BTN_PIN, RIGHT_BTN_PIN);
+  init_switches(KOLVI_LIMIT_PIN, RIGHT_BTN_PIN);
   // Lükkamise relee
   init_push_relee();
   // Roboti relee
@@ -343,17 +342,19 @@ void lykka() {
   delay(LYKKAMISE_AEG);
 
   push_relee_OFF();
-  delay(TAGASITULEKU_AEG);
-
   loendur_kokku++;
   Serial.print("Kokku lükkatud: ");
   Serial.print(loendur_kokku);
   Serial.print(" detaili\n");
+  
+  while (digitalRead(KOLVI_LIMIT_PIN) == LOW) {
+    // Oota, kuni lüliti on vajutatud
+    delay(1);
+  }
+  Serial.print("Kolv tagasi!\n");
 }
 
-void kass_on() {
 
-}
 
 /*
 bool is_details() {

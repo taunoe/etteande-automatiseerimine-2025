@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "Etteande skeem")
-		(date "2025-08-11")
-		(rev "1.1")
+		(date "2025-08-12")
+		(rev "1.2")
 		(company "Tauno Erik")
 		(comment 1 "TSENTER")
 	)
@@ -3866,7 +3866,7 @@
 		)
 		(uuid "8c39152b-2cb2-4fd7-921a-60335afb398f")
 	)
-	(text "Vasakpoolne lüliti"
+	(text "Kolvi lüliti"
 		(exclude_from_sim no)
 		(at 177.8 20.574 0)
 		(effects
@@ -3938,19 +3938,19 @@
 		(uuid "7a28c838-5584-472a-b9e9-341ff608a1b5")
 	)
 	(no_connect
-		(at 114.3 88.9)
+		(at 114.3 92.71)
 		(uuid "6808ea61-d5a9-47c7-9a0e-9cfcf6c4ebf0")
 	)
 	(no_connect
-		(at 114.3 91.44)
+		(at 114.3 95.25)
 		(uuid "ac52063b-9259-4685-a04d-ee82b71f3f3c")
 	)
 	(no_connect
-		(at 114.3 147.32)
+		(at 114.3 151.13)
 		(uuid "d1f83203-7aaf-45f8-a30d-5cbd12de8916")
 	)
 	(no_connect
-		(at 114.3 149.86)
+		(at 114.3 153.67)
 		(uuid "f4130c28-f793-4b77-982e-ffa9e7b45524")
 	)
 	(wire
@@ -3965,7 +3965,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 171.45) (xy 140.97 171.45)
+			(xy 114.3 175.26) (xy 140.97 175.26)
 		)
 		(stroke
 			(width 0)
@@ -3985,7 +3985,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 113.03) (xy 143.51 113.03)
+			(xy 114.3 116.84) (xy 143.51 116.84)
 		)
 		(stroke
 			(width 0)
@@ -4005,7 +4005,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 152.4) (xy 124.46 152.4)
+			(xy 114.3 156.21) (xy 124.46 156.21)
 		)
 		(stroke
 			(width 0)
@@ -4025,7 +4025,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 118.11) (xy 120.65 118.11)
+			(xy 114.3 121.92) (xy 120.65 121.92)
 		)
 		(stroke
 			(width 0)
@@ -4085,7 +4085,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 163.83) (xy 140.97 163.83)
+			(xy 114.3 167.64) (xy 140.97 167.64)
 		)
 		(stroke
 			(width 0)
@@ -4095,7 +4095,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 154.94) (xy 124.46 154.94)
+			(xy 114.3 158.75) (xy 124.46 158.75)
 		)
 		(stroke
 			(width 0)
@@ -4105,7 +4105,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 101.6) (xy 120.65 101.6)
+			(xy 114.3 105.41) (xy 120.65 105.41)
 		)
 		(stroke
 			(width 0)
@@ -4165,7 +4165,7 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 48.26) (xy 142.24 48.26)
+			(xy 137.16 53.34) (xy 142.24 53.34)
 		)
 		(stroke
 			(width 0)
@@ -4205,7 +4205,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 160.02) (xy 124.46 160.02)
+			(xy 114.3 163.83) (xy 124.46 163.83)
 		)
 		(stroke
 			(width 0)
@@ -4215,7 +4215,7 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 50.8) (xy 142.24 50.8)
+			(xy 137.16 55.88) (xy 142.24 55.88)
 		)
 		(stroke
 			(width 0)
@@ -4245,7 +4245,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 99.06) (xy 120.65 99.06)
+			(xy 114.3 102.87) (xy 120.65 102.87)
 		)
 		(stroke
 			(width 0)
@@ -4255,7 +4255,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 176.53) (xy 119.38 176.53)
+			(xy 114.3 180.34) (xy 119.38 180.34)
 		)
 		(stroke
 			(width 0)
@@ -4265,7 +4265,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 105.41) (xy 143.51 105.41)
+			(xy 114.3 109.22) (xy 143.51 109.22)
 		)
 		(stroke
 			(width 0)
@@ -4275,7 +4275,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 157.48) (xy 124.46 157.48)
+			(xy 114.3 161.29) (xy 124.46 161.29)
 		)
 		(stroke
 			(width 0)
@@ -4305,7 +4305,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 166.37) (xy 140.97 166.37)
+			(xy 114.3 170.18) (xy 140.97 170.18)
 		)
 		(stroke
 			(width 0)
@@ -4365,7 +4365,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 110.49) (xy 143.51 110.49)
+			(xy 114.3 114.3) (xy 143.51 114.3)
 		)
 		(stroke
 			(width 0)
@@ -4405,7 +4405,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 96.52) (xy 120.65 96.52)
+			(xy 114.3 100.33) (xy 120.65 100.33)
 		)
 		(stroke
 			(width 0)
@@ -4472,6 +4472,16 @@
 			(type default)
 		)
 		(uuid "980e8a51-515b-4f9f-b2ff-789d5009e0a5")
+	)
+	(wire
+		(pts
+			(xy 22.86 115.57) (xy 34.29 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "98368738-1999-40e8-bb36-bea5005499e7")
 	)
 	(wire
 		(pts
@@ -4565,7 +4575,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 93.98) (xy 120.65 93.98)
+			(xy 114.3 97.79) (xy 120.65 97.79)
 		)
 		(stroke
 			(width 0)
@@ -4625,13 +4635,23 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 173.99) (xy 119.38 173.99)
+			(xy 114.3 177.8) (xy 119.38 177.8)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "d037bc48-f4c6-4245-95a0-6076cdeef2e4")
+	)
+	(wire
+		(pts
+			(xy 22.86 113.03) (xy 34.29 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d27ca7f8-123e-44d0-8b81-748713ab02d8")
 	)
 	(wire
 		(pts
@@ -4655,7 +4675,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 168.91) (xy 140.97 168.91)
+			(xy 114.3 172.72) (xy 140.97 172.72)
 		)
 		(stroke
 			(width 0)
@@ -4665,7 +4685,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 115.57) (xy 120.65 115.57)
+			(xy 114.3 119.38) (xy 120.65 119.38)
 		)
 		(stroke
 			(width 0)
@@ -4745,7 +4765,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 107.95) (xy 143.51 107.95)
+			(xy 114.3 111.76) (xy 143.51 111.76)
 		)
 		(stroke
 			(width 0)
@@ -4764,7 +4784,7 @@
 		(uuid "0a8c1ed1-ed30-4be5-99f1-093d5c57af7c")
 	)
 	(label "Toiteplokk_GND"
-		(at 119.38 173.99 0)
+		(at 119.38 177.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4774,7 +4794,7 @@
 		(uuid "0f1143a6-1620-412f-a7c4-903dbca43c55")
 	)
 	(label "Toiteplokk_+24V"
-		(at 119.38 176.53 0)
+		(at 119.38 180.34 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4844,7 +4864,7 @@
 		(uuid "4a1b836b-9d25-4c0e-b22a-3e192fba545d")
 	)
 	(label "Toiteplokk_+24V"
-		(at 142.24 50.8 0)
+		(at 142.24 55.88 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4903,8 +4923,18 @@
 		)
 		(uuid "71918951-5248-4bcd-ae7c-55516e5efb91")
 	)
+	(label "D11"
+		(at 22.86 113.03 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "776f93ad-bdf7-4525-9ca7-5ef2cd56afd6")
+	)
 	(label "GND"
-		(at 124.46 157.48 0)
+		(at 124.46 161.29 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4913,8 +4943,18 @@
 		)
 		(uuid "844c41c6-a627-4528-a2d9-db92007e43cc")
 	)
+	(label "D12"
+		(at 22.86 115.57 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "8647ef5b-d647-4b0c-aabb-53026f80ff9c")
+	)
 	(label "Toiteplokk_+24V"
-		(at 120.65 118.11 0)
+		(at 120.65 121.92 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4934,7 +4974,7 @@
 		(uuid "8ca9937e-abbe-43ea-b2c9-3dda5bc245a4")
 	)
 	(label "D2"
-		(at 124.46 160.02 0)
+		(at 124.46 163.83 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4944,7 +4984,7 @@
 		(uuid "96aa066b-bb85-4231-bd50-c8a13ece90d5")
 	)
 	(label "GND"
-		(at 120.65 99.06 0)
+		(at 120.65 102.87 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4954,7 +4994,7 @@
 		(uuid "a20931ef-d31f-4c88-931c-426e565058f1")
 	)
 	(label "D2"
-		(at 120.65 101.6 0)
+		(at 120.65 105.41 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4994,7 +5034,7 @@
 		(uuid "b18300a8-b83a-4e37-bb8b-99f05c237c92")
 	)
 	(label "D3"
-		(at 120.65 96.52 0)
+		(at 120.65 100.33 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5004,7 +5044,7 @@
 		(uuid "c4be102c-032e-40a0-bf9c-3af78f8c6ca1")
 	)
 	(label "Toiteplokk_GND"
-		(at 142.24 48.26 0)
+		(at 142.24 53.34 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5014,7 +5054,7 @@
 		(uuid "c881939a-0697-481c-a7d4-c43f67e2e8ce")
 	)
 	(label "Toiteplokk_GND"
-		(at 120.65 115.57 0)
+		(at 120.65 119.38 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5054,7 +5094,7 @@
 		(uuid "ebdaa0c2-de17-4d66-8248-fa01ebb690bf")
 	)
 	(label "GND"
-		(at 120.65 93.98 0)
+		(at 120.65 97.79 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5064,7 +5104,7 @@
 		(uuid "ed989c14-f6e1-479e-ad05-452e110d3318")
 	)
 	(label "GND"
-		(at 124.46 152.4 0)
+		(at 124.46 156.21 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5084,7 +5124,7 @@
 		(uuid "f33e46e0-5969-4364-a481-638cf86a5b99")
 	)
 	(label "D3"
-		(at 124.46 154.94 0)
+		(at 124.46 158.75 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6070,7 +6110,7 @@
 	)
 	(symbol
 		(lib_id "Tauno_Library:Toiteplokk")
-		(at 134.62 26.67 0)
+		(at 134.62 31.75 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6079,7 +6119,7 @@
 		(fields_autoplaced yes)
 		(uuid "7cc515ca-cb17-4a71-947e-47cf5f3415cd")
 		(property "Reference" "U5"
-			(at 107.95 24.13 0)
+			(at 107.95 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6087,7 +6127,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 107.95 25.4 0)
+			(at 107.95 30.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6096,7 +6136,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 134.62 26.67 0)
+			(at 134.62 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6105,7 +6145,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 134.62 26.67 0)
+			(at 134.62 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6114,7 +6154,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 134.62 26.67 0)
+			(at 134.62 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6576,7 +6616,7 @@
 	)
 	(symbol
 		(lib_id "Tauno_Library:Driver_TB6600")
-		(at 111.76 144.78 0)
+		(at 111.76 148.59 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6584,7 +6624,7 @@
 		(dnp no)
 		(uuid "a000d945-2844-4e14-8946-96d885f66cc1")
 		(property "Reference" "U2"
-			(at 113.792 142.24 0)
+			(at 113.792 146.05 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6592,7 +6632,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 95.885 139.7 0)
+			(at 95.885 143.51 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6600,7 +6640,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 111.76 144.78 0)
+			(at 111.76 148.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6609,7 +6649,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 111.76 144.78 0)
+			(at 111.76 148.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6618,7 +6658,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 111.76 144.78 0)
+			(at 111.76 148.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6974,7 +7014,7 @@
 	)
 	(symbol
 		(lib_id "Tauno_Library:Sammu-mootor")
-		(at 140.97 160.02 0)
+		(at 140.97 163.83 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6983,7 +7023,7 @@
 		(fields_autoplaced yes)
 		(uuid "b863630f-44dc-4038-ab62-80ade4fab07c")
 		(property "Reference" "U4"
-			(at 166.37 166.8065 0)
+			(at 166.37 170.6165 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6992,7 +7032,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 166.37 168.0766 0)
+			(at 166.37 171.8866 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7002,7 +7042,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 140.97 160.02 0)
+			(at 140.97 163.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7011,7 +7051,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 140.97 160.02 0)
+			(at 140.97 163.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7020,7 +7060,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 140.97 160.02 0)
+			(at 140.97 163.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7118,7 +7158,7 @@
 	(symbol
 		(lib_name "Sammu-mootor_1")
 		(lib_id "Tauno_Library:Sammu-mootor")
-		(at 143.51 101.6 0)
+		(at 143.51 105.41 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7127,7 +7167,7 @@
 		(fields_autoplaced yes)
 		(uuid "d83bb77d-5fda-4e04-87c0-714aa78b20ca")
 		(property "Reference" "U3"
-			(at 168.91 108.3865 0)
+			(at 168.91 112.1965 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7136,7 +7176,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 168.91 109.6566 0)
+			(at 168.91 113.4666 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7146,7 +7186,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 143.51 101.6 0)
+			(at 143.51 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7155,7 +7195,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 143.51 101.6 0)
+			(at 143.51 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7164,7 +7204,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 143.51 101.6 0)
+			(at 143.51 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7196,7 +7236,7 @@
 	(symbol
 		(lib_name "Driver_TB6600_1")
 		(lib_id "Tauno_Library:Driver_TB6600")
-		(at 111.76 86.36 0)
+		(at 111.76 90.17 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7204,7 +7244,7 @@
 		(dnp no)
 		(uuid "dde3865e-f88c-4b95-9144-f28eebf92712")
 		(property "Reference" "U1"
-			(at 113.538 83.82 0)
+			(at 113.538 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7212,7 +7252,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 95.885 81.28 0)
+			(at 95.885 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7221,7 +7261,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 111.76 86.36 0)
+			(at 111.76 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7230,7 +7270,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 111.76 86.36 0)
+			(at 111.76 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7239,7 +7279,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 111.76 86.36 0)
+			(at 111.76 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
