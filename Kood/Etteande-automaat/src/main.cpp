@@ -9,7 +9,7 @@
 /*************************************************
  Seaded
 **************************************************/
-// Aja seaded:
+// Aja seaded: 1000ms == 1 second
 #define MOOTORI_EDASI_AEG    450  // ms
 #define MOOTORI_TAGASI_AEG    80  // ms
 
