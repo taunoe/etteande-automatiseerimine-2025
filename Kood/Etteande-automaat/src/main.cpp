@@ -2,7 +2,7 @@
  * Projekt:  Etteande automatiseerimine
  * Autor:    Tauno Erik
  * Algus:    2025.06.26
- * Muudetud: 2025.08.12
+ * Muudetud: 2025.08.13
  */
 #include <Arduino.h>
 
@@ -32,39 +32,37 @@ const int ROBOT_PIN        = 10;  //
 const int US1_TRIG_PIN     = 11;  // Ultraheli
 const int US1_ECHO_PIN     = 12;  // Ultraheli
 
-#define FORWARD 1  // Mootori suund
-#define BACK    0  // Mootori suund
-const int M1_SPEED = 500;  // Mootori kiirus
+#define FORWARD 1                 // Mootori suund
+#define BACK    0                 // Mootori suund
+const int M1_SPEED = 500;         // Mootori kiirus
 
-const unsigned long RELEASE_WINDOW = 200;  // Lülitid
-unsigned long left_release_time = 0;  // Lülitid
-unsigned long right_release_time = 0;  // Lülitid
+#define VIIMASED_TK  5  // Viimased detailid masinas
+static unsigned int loendur_viimased = VIIMASED_TK;
 
-static unsigned int loendur_kokku = 0;    // Lükkatud detailid
-static unsigned int loendur_viimased = 5; // Viimased detailid masinas
 static bool status = true;
+static unsigned int loendur_kokku = 0;  // Lükkatud detailid
+
+//const unsigned long RELEASE_WINDOW = 200;  // Lülitid
+//unsigned long left_release_time = 0;  // Lülitid
+//unsigned long right_release_time = 0;  // Lülitid
 
 /*************************************************
  Function prototypes
 **************************************************/
+void init_motor();
+void init_push_relee();
+void init_ask_from_robot();
+void init_switches(int left_pin, int right_pin);
+void init_ultrasound(int trig_pin, int echo_pin);
+
 void oota(int aeg);  // Olek
 void lykka();        // Olek
-// Mootorid
-void init_motor();
 void run_step_motor(int dir, int steps, int speed, int pulse_pin, int direction_pin);
 void liiguta_edasi();
-// Lükkamise relee
-void init_push_relee();
 void push_relee_ON();
 void push_relee_OFF();
-// Küsi robotilt
-void init_ask_from_robot();
 void ask_from_robot();
-// Lülitid
-void init_switches(int left_pin, int right_pin);
 bool is_details();
-// Ultraheli andur
-void init_ultrasound(int trig_pin, int echo_pin);
 float measure_distance(int trig_pin, int echo_pin);
 
 
@@ -72,13 +70,13 @@ float measure_distance(int trig_pin, int echo_pin);
  Olekud
 **************************************************/
 enum State {
-  OOTA,    // 0 - Ootab
-  KYSI,    // 1 - Ütle robotile
-  EDASI,   // 2 - Mootorid liiguvad
-  LYKKA,   // 3 - Lükkamise relee lülitatud
-  VIGA,    // 4 - Viga
-  KAS_ON,  // 5 - Kas on uusi detaile?
-  VIIMASED // 6 - Viimased detailid masinas
+  OOTA,     // 0 - Ootab
+  KYSI,     // 1 - Ütle robotile
+  EDASI,    // 2 - Mootorid liiguvad
+  LYKKA,    // 3 - Lükkamise relee lülitatud
+  VIGA,     // 4 - Viga
+  KAS_ON,   // 5 - Kas on uusi detaile?
+  VIIMASED  // 6 - Viimased detailid masinas
 };
 
 // Alg olek
@@ -100,40 +98,40 @@ void setup() {
 }
 
 void loop() {
-  // Olekumasin ////////////////////////////////////
+
   switch (next_step) {
-    case OOTA: //0
+    case OOTA:  // 0
       oota(1000);
       next_step = KAS_ON;
       break;
 
-    case KYSI: //1
+    case KYSI:  // 1
       ask_from_robot();
       next_step = KAS_ON;
       break;
 
-    case EDASI: //2
+    case EDASI:  // 2
       liiguta_edasi();
       next_step = LYKKA;
       break;
 
-    case LYKKA: //3
+    case LYKKA:  // 3
       lykka();
       next_step = KAS_ON;
       break;
     
-    case VIGA: //4
+    case VIGA:  // 4
       Serial.println("VIGA");
       next_step = OOTA;
       break;
 
-    case KAS_ON: //5
+    case KAS_ON:  // 5
       status = is_details();
-      // Järgmine olek:
-      if(status == true) {
+
+      if(status == true) { // Kui on uusi detaile
         next_step = EDASI;
         Serial.println("KAS ON UUSI DETAILE: JAH");
-        loendur_viimased = 5;
+        loendur_viimased = VIIMASED_TK;
       }
       else {
         next_step = VIIMASED;
@@ -169,7 +167,6 @@ void loop() {
  * @param steps Number of steps
  * @param speed Speed of the motor
  **********************************************************************/
-
 void run_step_motor(int dir, int steps, int speed, int pulse_pin, int direction_pin)
 {
   digitalWrite(direction_pin, dir);  // Set direction
@@ -183,59 +180,36 @@ void run_step_motor(int dir, int steps, int speed, int pulse_pin, int direction_
   }
 }
 
-
-/**********************************************************************
- * Run the stepper motor forever until both buttons are unpressed
- * @param speed Speed of the motor
- **********************************************************************/
- /*
-void run(int speed, int pulse_pin)
-{
-  while (true)
-  {
-    digitalWrite(pulse_pin, HIGH);
-    delayMicroseconds(speed);  // Pulse width (adjust for speed)
-    digitalWrite(pulse_pin, LOW);
-    delayMicroseconds(speed);  // Delay between steps (adjust for speed)
-
-    // Exit the loop if neither button is unpressed
-    if (digitalRead(BTN_LEFT_PIN) == HIGH && digitalRead(BTN_RIGHT_PIN) == HIGH)
-    {
-      break;
-    }
-  }
-}
+/*
+Seadista pinnid
 */
-
 void init_switches(int left_pin, int right_pin) {
   pinMode(left_pin, INPUT);   // Pulled down externally
   pinMode(right_pin, INPUT);  // Pulled down externally
   Serial.println("Lülitid seadistatud!");
 }
 
+/*
+Seadista pinnid
+*/
 void init_motor() {
   pinMode(M1_PULSE_PIN, OUTPUT);
   pinMode(M1_DIRECTION_PIN, OUTPUT);
   Serial.println("Mootor seadistatud!");
 }
 
+/*
+Seadista pinnid
+*/
 void init_push_relee() {
   pinMode(PUSH_RELEE_PIN, OUTPUT);
   digitalWrite(PUSH_RELEE_PIN, LOW);
   Serial.println("Lükkamise relee seadistatud!");
 }
 
-void push_relee_ON() {
-  digitalWrite(PUSH_RELEE_PIN, HIGH);
-  Serial.println("Lükkamise relee ON");
-}
-
-void push_relee_OFF() {
-  digitalWrite(PUSH_RELEE_PIN, LOW);
-  Serial.println("Lükkamise relee OFF");
-}
-
-
+/*
+Seadista pinnid
+*/
 void init_ask_from_robot() {
   pinMode(ROBOT_PIN, OUTPUT);
   digitalWrite(ROBOT_PIN, LOW);
@@ -243,6 +217,32 @@ void init_ask_from_robot() {
 }
 
 /*
+Seadista pinnid
+*/
+void init_ultrasound(int trig_pin, int echo_pin) {
+  pinMode(trig_pin, OUTPUT);
+  pinMode(echo_pin, INPUT);
+  Serial.println("Ultraheli seadistatud!");
+}
+
+/*
+Lükkamise relee ON
+*/
+void push_relee_ON() {
+  digitalWrite(PUSH_RELEE_PIN, HIGH);
+  Serial.println("Lükkamise relee ON");
+}
+
+/*
+Lükkamise relee OFF
+*/
+void push_relee_OFF() {
+  digitalWrite(PUSH_RELEE_PIN, LOW);
+  Serial.println("Lükkamise relee OFF");
+}
+
+/*
+Lülitab sisse relee
 */
 void ask_from_robot() {
   Serial.println("Küsin ROBOTILT");
@@ -253,27 +253,10 @@ void ask_from_robot() {
 }
 
 /*
-return: false - Kui üks nuppudest on alla vajutamata
-return: true  - Mõlemad nuppud allvajutatud
+ Ultraheli andur möödab kaugust,
+ et teada saada, kas on uusi detaile.
 */
 bool is_details() {
-  /*
-  // Lülitid ////////////////////////////////////////////////
-  bool left_btn_state = digitalRead(LEFT_BTN_PIN);
-  bool right_btn_state = digitalRead(RIGHT_BTN_PIN);
-
-  // Detect left button release
-  if (left_btn_state == LOW) {
-    Serial.println("Vasak nupp vabastatud");
-    return false;
-  }
-
-  // Detect right button release
-  if (right_btn_state == LOW) {
-    Serial.println("Parem nupp vabastatud");
-    return false;
-  }
-  */
   float kaugus = measure_distance(US1_TRIG_PIN, US1_ECHO_PIN);
   Serial.print("Kaugus: ");
   Serial.print(kaugus);
@@ -287,14 +270,6 @@ bool is_details() {
   return false;
 }
 
-
-/*
-*/
-void init_ultrasound(int trig_pin, int echo_pin) {
-  pinMode(trig_pin, OUTPUT);
-  pinMode(echo_pin, INPUT);
-  Serial.println("Ultraheli seadistatud!");
-}
 
 /*********************************************************
  Ultraheli kauguse mõõtmine
@@ -313,7 +288,7 @@ float measure_distance(int trig_pin, int echo_pin) {
   // Measure the echo pulse length
   long duration = pulseIn(echo_pin, HIGH);
 
-  // Calculate distance in centimeters
+  // Valem
   // tmp_in_C = 21.0
   // heli_kiirus = 331.1 + (0.606 * tmp_in_C) == 343.826
   // distance_per_us = heli_kiirus / 10000.0 == 0.0343826
@@ -322,6 +297,9 @@ float measure_distance(int trig_pin, int echo_pin) {
   return distance_cm;
 }
 
+/*
+Rattad lükkavad detaile edasi
+*/
 void liiguta_edasi() {
   Serial.println("LIIGUTA EDASI");
   // Liiguta edasi mootoreid
@@ -332,12 +310,18 @@ void liiguta_edasi() {
   delay(100);
 }
 
+/*
+Ära tee midagi
+*/
 void oota(int aeg) {
   Serial.println("OOTA");
   delay(aeg);
 }
 
-
+/*
+Suruõhuga kolb lükkab detaile edasi
+Juhitud releega
+*/
 void lykka() {
   Serial.println("LÜKKA");
 
@@ -399,5 +383,28 @@ bool is_details() {
   // TODO: kui üks vajutatud ja teine mitte siis on viga
 
   return true;
+}
+*/
+
+/**********************************************************************
+ * Run the stepper motor forever until both buttons are unpressed
+ * @param speed Speed of the motor
+ **********************************************************************/
+ /*
+void run(int speed, int pulse_pin)
+{
+  while (true)
+  {
+    digitalWrite(pulse_pin, HIGH);
+    delayMicroseconds(speed);  // Pulse width (adjust for speed)
+    digitalWrite(pulse_pin, LOW);
+    delayMicroseconds(speed);  // Delay between steps (adjust for speed)
+
+    // Exit the loop if neither button is unpressed
+    if (digitalRead(BTN_LEFT_PIN) == HIGH && digitalRead(BTN_RIGHT_PIN) == HIGH)
+    {
+      break;
+    }
+  }
 }
 */
