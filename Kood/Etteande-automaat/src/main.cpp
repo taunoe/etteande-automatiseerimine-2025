@@ -21,7 +21,8 @@
 // Ultraheli anduri:
 #define MAX_DETAILI_KAUGUS  21.0  // cm ultraheli andurist
 #define MIN_DETAILI_KAUGUS  15.0  // cm ultraheli andurist
-#define MITUKORDA              5  // Kaugus arvutatakse keskmine 5 mõõtmisest
+// Mitu korda mõõdetakse, et arvutda keskmist kaugust
+#define MITUKORDA             10
 
 // Pinnid:
 const int M1_PULSE_PIN     =  2;  // Mootor
@@ -302,7 +303,7 @@ double measure_distance(int trig_pin, int echo_pin) {
     Serial.print(" kaugus ");
     Serial.println(distance);
     kaugused[i] = distance;
-    delay(50);  // Delay between measurements
+    delay(25);  // Delay between measurements
   }
 
   double distance_cm = 0.0;
