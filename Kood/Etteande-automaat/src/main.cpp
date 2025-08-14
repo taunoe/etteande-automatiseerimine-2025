@@ -21,8 +21,12 @@
 // Ultraheli anduri:
 #define MAX_DETAILI_KAUGUS  21.0  // cm ultraheli andurist
 #define MIN_DETAILI_KAUGUS  15.0  // cm ultraheli andurist
-// Mitu korda mõõdetakse, et arvutda keskmist kaugust
+
+// Mitu korda mõõdetakse, et arvutda keskmist kaugust:
 #define MITUKORDA             10
+
+// Minu iimased detaili masinas:
+#define VIIMASED_TK            3
 
 // Pinnid:
 const int M1_PULSE_PIN     =  2;  // Mootor
@@ -38,7 +42,6 @@ const int US1_ECHO_PIN     = 12;  // Ultraheli
 #define BACK    0                 // Mootori suund
 const int M1_SPEED = 500;         // Mootori kiirus
 
-#define VIIMASED_TK  5  // Viimased detailid masinas
 static unsigned int loendur_viimased = VIIMASED_TK;
 
 static bool status = true;
