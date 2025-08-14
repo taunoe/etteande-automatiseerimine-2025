@@ -2,7 +2,7 @@
  * Projekt:  Etteande automatiseerimine
  * Autor:    Tauno Erik
  * Algus:    2025.06.26
- * Muudetud: 2025.08.13
+ * Muudetud: 2025.08.14
  */
 #include <Arduino.h>
 
@@ -19,8 +19,9 @@
 #define ROBOTI_SIGNAALI_AEG  100  // ms
 #define ROBOTI_TOOMISE_AEG  5000  // ms
 // Ultraheli anduri:
-#define MAX_DETAILI_KAUGUS  20.0  // cm ultraheli andurist
+#define MAX_DETAILI_KAUGUS  21.0  // cm ultraheli andurist
 #define MIN_DETAILI_KAUGUS  15.0  // cm ultraheli andurist
+#define MITUKORDA              5  // Kaugus arvutatakse keskmine 5 mõõtmisest
 
 // Pinnid:
 const int M1_PULSE_PIN     =  2;  // Mootor
@@ -63,7 +64,7 @@ void push_relee_ON();
 void push_relee_OFF();
 void ask_from_robot();
 bool is_details();
-float measure_distance(int trig_pin, int echo_pin);
+double measure_distance(int trig_pin, int echo_pin);
 
 
 /*************************************************
@@ -149,6 +150,7 @@ void loop() {
         Serial.println("Ütlen ROBOTILE"); // Mitu korda??
         digitalWrite(ROBOT_PIN, HIGH);
         delay(ROBOTI_SIGNAALI_AEG);
+        digitalWrite(ROBOT_PIN, LOW);
         // Pärast seda
         next_step = EDASI;
         loendur_viimased--;
@@ -257,7 +259,7 @@ void ask_from_robot() {
  et teada saada, kas on uusi detaile.
 */
 bool is_details() {
-  float kaugus = measure_distance(US1_TRIG_PIN, US1_ECHO_PIN);
+  double kaugus = measure_distance(US1_TRIG_PIN, US1_ECHO_PIN);
   Serial.print("Kaugus: ");
   Serial.print(kaugus);
 
@@ -275,24 +277,41 @@ bool is_details() {
  Ultraheli kauguse mõõtmine
  returns distance cm float
 **********************************************************/
-float measure_distance(int trig_pin, int echo_pin) {
-  // Clear trigger
-  digitalWrite(trig_pin, LOW);
-  delayMicroseconds(2);
-
-  // Send 10µs pulse to trigger
-  digitalWrite(trig_pin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trig_pin, LOW);
-
-  // Measure the echo pulse length
-  long duration = pulseIn(echo_pin, HIGH);
-
+double measure_distance(int trig_pin, int echo_pin) {
   // Valem
   // tmp_in_C = 21.0
   // heli_kiirus = 331.1 + (0.606 * tmp_in_C) == 343.826
   // distance_per_us = heli_kiirus / 10000.0 == 0.0343826
-  float distance_cm = duration * 0.0343 / 2; // Or divide by 29.1
+  double kaugused[MITUKORDA] = {0};
+
+  for (size_t i = 0; i < MITUKORDA; i++) {
+    // Clear trigger
+    digitalWrite(trig_pin, LOW);
+    delayMicroseconds(2);
+
+    // Send 10µs pulse to trigger
+    digitalWrite(trig_pin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trig_pin, LOW);
+
+    // Measure the echo pulse length
+    long duration = pulseIn(echo_pin, HIGH);
+
+    double distance = duration * 0.0343 / 2; // Or divide by 29.1
+    Serial.print(i);
+    Serial.print(" kaugus ");
+    Serial.println(distance);
+    kaugused[i] = distance;
+    delay(50);  // Delay between measurements
+  }
+
+  double distance_cm = 0.0;
+  // Arvuta keskmine kaugus
+  for (int i = 0; i < MITUKORDA; i++) {
+    distance_cm += kaugused[i];
+  }
+
+  distance_cm = distance_cm / double(MITUKORDA);
 
   return distance_cm;
 }
