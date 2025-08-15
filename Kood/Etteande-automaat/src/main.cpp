@@ -2,7 +2,7 @@
  * Projekt:  Etteande automatiseerimine
  * Autor:    Tauno Erik
  * Algus:    2025.06.26
- * Muudetud: 2025.08.14
+ * Muudetud: 2025.08.15
  */
 #include <Arduino.h>
 
@@ -14,10 +14,9 @@
 #define MOOTORI_TAGASI_AEG    80  // ms
 
 #define LYKKAMISE_AEG       3100  // ms
-#define TAGASITULEKU_AEG    5000  // ms
 
 #define ROBOTI_SIGNAALI_AEG  100  // ms
-#define ROBOTI_TOOMISE_AEG  5000  // ms
+#define ROBOTI_TOOMISE_AEG  5000  // ms ?
 // Ultraheli anduri:
 #define MAX_DETAILI_KAUGUS  21.0  // cm ultraheli andurist
 #define MIN_DETAILI_KAUGUS  15.0  // cm ultraheli andurist
@@ -45,7 +44,8 @@ const int M1_SPEED = 500;         // Mootori kiirus
 static unsigned int loendur_viimased = VIIMASED_TK;
 
 static bool status = true;
-static unsigned int loendur_kokku = 0;  // Lükkatud detailid
+// Masin loendab lükkatud detaile
+static unsigned int loendur_kokku = 0;
 
 //const unsigned long RELEASE_WINDOW = 200;  // Lülitid
 //unsigned long left_release_time = 0;  // Lülitid
@@ -126,7 +126,7 @@ void loop() {
       break;
     
     case VIGA:  // 4
-      Serial.println("VIGA");
+      Serial.println("--VIGA--");
       next_step = OOTA;
       break;
 
@@ -266,6 +266,7 @@ bool is_details() {
   double kaugus = measure_distance(US1_TRIG_PIN, US1_ECHO_PIN);
   Serial.print("Kaugus: ");
   Serial.print(kaugus);
+  // //TODO: kui kaugus on selgelt väga vale määra veaolek
 
   if (kaugus < MAX_DETAILI_KAUGUS && kaugus > MIN_DETAILI_KAUGUS) {
     Serial.print(" -  Hea!\n");
