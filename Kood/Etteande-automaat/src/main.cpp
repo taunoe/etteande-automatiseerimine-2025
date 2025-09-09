@@ -345,7 +345,7 @@ void liiguta_edasi() {
 Ära tee midagi
 */
 void oota(int aeg) {
-  Serial.println("OOTA");
+  Serial.println("Ootan");
   delay(aeg);
 }
 
@@ -371,7 +371,7 @@ void lykka() {
 
 void oota_kolbi_tagasi() {
   // Oota kuni suruõhu kolb tuleb tagasi
-  Serial.print("Ootan kolvi tagasi: ");
+  Serial.print("Ootan kolbi tagasi:\n");
   while (digitalRead(KOLVI_LIMIT_PIN) == LOW) {
     // Oota, kuni lüliti on vajutatud
     delay(1);
@@ -381,8 +381,8 @@ void oota_kolbi_tagasi() {
 
 void oota_laua_vabastamist() {
   // Oota kuni laud on vaba uue detaili jaoks
-  Serial.print("Ootan laua vabastamist: ");
-  while (digitalRead(TEINE_LIMIT_PIN) == LOW) {
+  Serial.print("Ootan laua vabastamist:\n");
+  while (digitalRead(TEINE_LIMIT_PIN) == HIGH) {
     // Oota, kuni lüliti on vajutatud
     delay(1);
   }
