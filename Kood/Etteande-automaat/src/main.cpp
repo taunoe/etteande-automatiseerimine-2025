@@ -2,7 +2,7 @@
  * Projekt:  Etteande automatiseerimine
  * Autor:    Tauno Erik
  * Algus:    2025.06.26
- * Muudetud: 2025.08.15
+ * Muudetud: 2025.09.09
  */
 #include <Arduino.h>
 
@@ -10,7 +10,7 @@
  Seaded
 **************************************************/
 // Aja seaded: 1000ms == 1 second
-#define MOOTORI_EDASI_AEG    450  // ms
+#define MOOTORI_EDASI_AEG    950  // ms
 #define MOOTORI_TAGASI_AEG    80  // ms
 
 #define LYKKAMISE_AEG       3100  // ms
@@ -18,8 +18,8 @@
 #define ROBOTI_SIGNAALI_AEG  100  // ms
 #define ROBOTI_TOOMISE_AEG  5000  // ms ?
 // Ultraheli anduri:
-#define MAX_DETAILI_KAUGUS  21.0  // cm ultraheli andurist
 #define MIN_DETAILI_KAUGUS  15.0  // cm ultraheli andurist
+#define MAX_DETAILI_KAUGUS  21.0  // cm ultraheli andurist
 
 // Mitu korda mõõdetakse, et arvutda keskmist kaugust:
 #define MITUKORDA             10
@@ -31,7 +31,7 @@
 const int M1_PULSE_PIN     =  2;  // Mootor
 const int M1_DIRECTION_PIN =  3;  // Mootor
 const int KOLVI_LIMIT_PIN  =  8;  // Kolvi Limit Switch
-const int RIGHT_BTN_PIN    =  7;  // Limit Switch
+const int TEINE_LIMIT_PIN  =  7;  // Lüli peale Kolvi
 const int PUSH_RELEE_PIN   =  9;  // 
 const int ROBOT_PIN        = 10;  // 
 const int US1_TRIG_PIN     = 11;  // Ultraheli
@@ -60,8 +60,10 @@ void init_ask_from_robot();
 void init_switches(int left_pin, int right_pin);
 void init_ultrasound(int trig_pin, int echo_pin);
 
-void oota(int aeg);  // Olek
-void lykka();        // Olek
+void oota(int aeg);
+void lykka();
+void oota_kolbi_tagasi();
+void oota_laua_vabastamist();
 void run_step_motor(int dir, int steps, int speed, int pulse_pin, int direction_pin);
 void liiguta_edasi();
 void push_relee_ON();
@@ -75,13 +77,13 @@ double measure_distance(int trig_pin, int echo_pin);
  Olekud
 **************************************************/
 enum State {
-  OOTA,     // 0 - Ootab
-  KYSI,     // 1 - Ütle robotile
-  EDASI,    // 2 - Mootorid liiguvad
-  LYKKA,    // 3 - Lükkamise relee lülitatud
-  VIGA,     // 4 - Viga
-  KAS_ON,   // 5 - Kas on uusi detaile?
-  VIIMASED  // 6 - Viimased detailid masinas
+  OOTA,           // 0 - Ootab
+  KYSI_ROBOTILT,  // 1 - Ütle robotile
+  RATTAD_EDASI,   // 2 - Mootorid liiguvad //EDASI
+  KOLB_LYKKAB,    // 3 - Lükkamise relee lülitatud //LYKKA
+  VIGA,           // 4 - Viga
+  KAS_ON_LAUDU,   // 5 - Kas on uusi detaile?
+  VIIMASED        // 6 - Viimased detailid masinas
 };
 
 // Alg olek
@@ -93,7 +95,7 @@ void setup() {
   // Stepper motor pins
   init_motor();
   // Lülitid
-  init_switches(KOLVI_LIMIT_PIN, RIGHT_BTN_PIN);
+  init_switches(KOLVI_LIMIT_PIN, TEINE_LIMIT_PIN);
   // Lükkamise relee
   init_push_relee();
   // Roboti relee
@@ -107,22 +109,27 @@ void loop() {
   switch (next_step) {
     case OOTA:  // 0
       oota(1000);
-      next_step = KAS_ON;
+      next_step = KAS_ON_LAUDU;
       break;
 
-    case KYSI:  // 1
-      ask_from_robot();
-      next_step = KAS_ON;
+    case KYSI_ROBOTILT:         // 1
+      ask_from_robot();         // Signaal robotile
+      oota(ROBOTI_TOOMISE_AEG); // 
+      next_step = KAS_ON_LAUDU; // Järgmine tegevus
       break;
 
-    case EDASI:  // 2
-      liiguta_edasi();
-      next_step = LYKKA;
+    case RATTAD_EDASI:         // 2
+      oota(4250);
+      liiguta_edasi();         // Rattad lükkavad edasi
+      next_step = KOLB_LYKKAB; // Järgmine tegevus
       break;
 
-    case LYKKA:  // 3
-      lykka();
-      next_step = KAS_ON;
+    case KOLB_LYKKAB:           // 3
+      oota(750);                // Oota enne lükkamist
+      lykka();                  // Suruõhu kolb lükkab
+      oota_kolbi_tagasi();      // Suruõhu kolb on tagasi algasendis
+      oota_laua_vabastamist();  // Laud on vaba uue detaili jaoks
+      next_step = KAS_ON_LAUDU; // Järgmine tegevus
       break;
     
     case VIGA:  // 4
@@ -130,16 +137,16 @@ void loop() {
       next_step = OOTA;
       break;
 
-    case KAS_ON:  // 5
+    case KAS_ON_LAUDU:  // 5
       status = is_details();
 
       if(status == true) { // Kui on uusi detaile
-        next_step = EDASI;
+        next_step = RATTAD_EDASI; // Järgmine tegevus
         Serial.println("KAS ON UUSI DETAILE: JAH");
         loendur_viimased = VIIMASED_TK;
       }
       else {
-        next_step = VIIMASED;
+        next_step = VIIMASED; // Järgmine tegevus
         Serial.println("KAS ON UUSI DETAILE: EI");
       }
       break;
@@ -156,10 +163,10 @@ void loop() {
         delay(ROBOTI_SIGNAALI_AEG);
         digitalWrite(ROBOT_PIN, LOW);
         // Pärast seda
-        next_step = EDASI;
+        next_step = RATTAD_EDASI;
         loendur_viimased--;
       } else {
-        next_step = KYSI;
+        next_step = KYSI_ROBOTILT;
       }
       break;
   }  // switch end
@@ -189,9 +196,9 @@ void run_step_motor(int dir, int steps, int speed, int pulse_pin, int direction_
 /*
 Seadista pinnid
 */
-void init_switches(int left_pin, int right_pin) {
-  pinMode(left_pin, INPUT);   // Pulled down externally
-  pinMode(right_pin, INPUT);  // Pulled down externally
+void init_switches(int pin_1, int pin_2) {
+  pinMode(pin_1, INPUT);   // Pulled down externally
+  pinMode(pin_2, INPUT);   // Pulled down externally
   Serial.println("Lülitid seadistatud!");
 }
 
@@ -248,14 +255,14 @@ void push_relee_OFF() {
 }
 
 /*
-Lülitab sisse relee
+Lülitab sisse relee korraks, et anda signaal
 */
 void ask_from_robot() {
   Serial.println("Küsin ROBOTILT");
   digitalWrite(ROBOT_PIN, HIGH);
   delay(ROBOTI_SIGNAALI_AEG);
   digitalWrite(ROBOT_PIN, LOW);
-  delay(ROBOTI_TOOMISE_AEG);
+  //delay(ROBOTI_TOOMISE_AEG);
 }
 
 /*
@@ -322,7 +329,7 @@ double measure_distance(int trig_pin, int echo_pin) {
 }
 
 /*
-Rattad lükkavad detaile edasi
+Rattad lükkavad detaile edasi teatud aja
 */
 void liiguta_edasi() {
   Serial.println("LIIGUTA EDASI");
@@ -349,23 +356,39 @@ Juhitud releega
 void lykka() {
   Serial.println("LÜKKA");
 
+  // Lülitab suruõhu kolvi sisse
   push_relee_ON();
   delay(LYKKAMISE_AEG);
 
+  // Lülitab suruõhu kolvi välja
   push_relee_OFF();
+
   loendur_kokku++;
   Serial.print("Kokku lükkatud: ");
   Serial.print(loendur_kokku);
   Serial.print(" detaili\n");
+}
 
-  Serial.print("Ootan nupu vajutust!\n");
+void oota_kolbi_tagasi() {
+  // Oota kuni suruõhu kolb tuleb tagasi
+  Serial.print("Ootan kolvi tagasi: ");
   while (digitalRead(KOLVI_LIMIT_PIN) == LOW) {
     // Oota, kuni lüliti on vajutatud
     delay(1);
   }
-  Serial.print("Kolv tagasi!\n");
+  Serial.print("OK!\n");
 }
 
+void oota_laua_vabastamist() {
+  // Oota kuni laud on vaba uue detaili jaoks
+  Serial.print("Ootan laua vabastamist: ");
+  while (digitalRead(TEINE_LIMIT_PIN) == LOW) {
+    // Oota, kuni lüliti on vajutatud
+    delay(1);
+  }
+  Serial.print("OK!\n");
+
+}
 
 
 /*
