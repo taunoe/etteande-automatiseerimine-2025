@@ -2,7 +2,7 @@
  * Projekt:  Juhtmoodul
  * Autor:    Tauno Erik
  * Algus:    2026.03.03
- * Muudetud: 2026.03.03
+ * Muudetud: 2026.03.12
  */
 #include <Arduino.h>
 #include <pico/mutex.h>        // Race Condition Protection
@@ -82,6 +82,7 @@ void setup1() {
 
   // Detect input signal
   if (digitalRead(SILINER_SWITCH_PIN) == HIGH && !timerRunning) {
+    Serial.println("SILINER_SWITCH_PIN: HIGH");
     motor_state = 1;
     startTime = time_now;
     timerRunning = true;
