@@ -76,9 +76,20 @@ void setup() {
  SETUP Core 1
  *******************************************************************/
 void setup1() {
+  
+
+}
+
+/*******************************************************************
+ Core 0 loop
+ *******************************************************************/
+void loop() {
   // mutex_enter_blocking(&my_mutex);
   // mutex_exit(&my_mutex);
   static unsigned long time_now = millis();
+
+  digitalWrite(OPTOCOUPLER_MOOTOR_PIN, HIGH);
+  /*
 
   // Detect input signal
   if (digitalRead(SILINER_SWITCH_PIN) == HIGH && !timerRunning) {
@@ -98,15 +109,7 @@ void setup1() {
     digitalWrite(OPTOCOUPLER_MOOTOR_PIN, HIGH);
   } else {
     digitalWrite(OPTOCOUPLER_MOOTOR_PIN, LOW);
-  }
-
-}
-
-/*******************************************************************
- Core 0 loop
- *******************************************************************/
-void loop() {
-
+  }*/
 }  // loop end
 
 
