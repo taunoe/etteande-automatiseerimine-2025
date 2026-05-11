@@ -53,12 +53,13 @@
     "zone_display_mode": 0
   },
   "git": {
+    "integration_disabled": false,
     "repo_type": "",
     "repo_username": "",
     "ssh_key": ""
   },
   "meta": {
-    "filename": "Sammu-mootorite_skeem.kicad_prl",
+    "filename": "Juhtmoodul_skeem.kicad_prl",
     "version": 5
   },
   "net_inspector_panel": {
