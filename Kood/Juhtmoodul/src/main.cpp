@@ -32,23 +32,23 @@ int motor_state = 0; // 0-off
 
 
 enum State {
-  OOTA,           // 0 - Ootab
-  MOOTORID,  // 1 - Ütle robotile
-  RATTAD_EDASI,   // 2 - Mootorid liiguvad //EDASI
-  KOLB_LYKKAB,    // 3 - Lükkamise relee lülitatud //LYKKA
-  VIGA,           // 4 - Viga
-  KAS_ON_LAUDU,   // 5 - Kas on uusi detaile?
-  VIIMASED        // 6 - Viimased detailid masinas
+  ALGUS,           // 0
+  KAS_A3_VABA,     // 1 - Kas andur 3 on vaba
+  KAS_A1_A2_VABA,  // 2 - Kas andur 1 ja 2 on vaba
+  MOOTORID,        // 3 - Mootorid liiguvad
+  KOLB_LYKKAB,     // 4 - Lükkamise relee lülitatud
+  KOLB_TAGASI,     // 5 - Lükkamise relee lülitatud
+  OOTA             // 6
 };
 
 // Alg olek
-static State next_step = OOTA;
+static State masin_olek = ALGUS;
 
 /*************************************************
  Function prototypes
 **************************************************/
 int readSensorMajority(int sensorPin);
-
+State oota(int wait_time, State next_state);
 
 
 /*******************************************************************
@@ -93,13 +93,85 @@ void loop() {
   // Test: Mootorid töötavad 28.09.2026
   // digitalWrite(OPTOCOUPLER_MOOTOR_PIN, HIGH);
 
-  // Test: Andur 1
-  // High = Rohelin
-  // Low = Punane
-  readSensorMajority(ANDUR_1_PIN) == HIGH ? Serial.println("ANDUR_1: HIGH") : Serial.println("ANDUR_1: LOW");
-  readSensorMajority(ANDUR_2_PIN) == HIGH ? Serial.println("ANDUR_2: HIGH") : Serial.println("ANDUR_2: LOW");
-  readSensorMajority(ANDUR_3_PIN) == HIGH ? Serial.println("ANDUR_3: HIGH") : Serial.println("ANDUR_3: LOW");
-  delay(100);
+  // Test: Andurid töötavad 28.09.2026
+  // High = Rohelin = ei
+  // Low = Punane = jah
+  //readSensorMajority(ANDUR_1_PIN) == HIGH ? Serial.println("ANDUR_1: ei") : Serial.println("ANDUR_1: jah");
+  //readSensorMajority(ANDUR_2_PIN) == HIGH ? Serial.println("ANDUR_2: ei") : Serial.println("ANDUR_2: jah");
+  //readSensorMajority(ANDUR_3_PIN) == HIGH ? Serial.println("ANDUR_3: ei") : Serial.println("ANDUR_3: jah");
+  
+  //digitalRead(SILINER_SWITCH_PIN) == HIGH ? Serial.println("SILINER_SWITCH_PIN: HIGH") : Serial.println("SILINER_SWITCH_PIN: LOW");
+  
+
+  switch (masin_olek)
+  {
+  case ALGUS:
+    Serial.println("[ ALGUS ]");
+    masin_olek = oota(1000, KAS_A3_VABA);
+    break;
+
+  case KAS_A3_VABA:
+    Serial.println("[ KAS_A3_VABA ]");
+    // LOW = Punane = jah on detail
+    if (readSensorMajority(ANDUR_3_PIN) == HIGH)
+    {
+      Serial.println("Ei ole detaili");
+      masin_olek = oota(1000, KAS_A3_VABA);
+    } 
+    else
+    {
+      Serial.println("On detail");
+      masin_olek = KAS_A1_A2_VABA;
+    }
+    break;
+
+  case KAS_A1_A2_VABA:
+    Serial.println("[ KAS_A1_A2_VABA ]");
+
+    if (readSensorMajority(ANDUR_1_PIN) == HIGH 
+    && readSensorMajority(ANDUR_2_PIN) == HIGH) 
+    {
+      Serial.println("A1 ja A2 on vabad");
+      masin_olek = MOOTORID;
+    }
+    else if (readSensorMajority(ANDUR_1_PIN) == LOW 
+    && readSensorMajority(ANDUR_2_PIN) == LOW) 
+    {
+      Serial.println("A1 ja A2 on detail");
+      digitalWrite(OPTOCOUPLER_MOOTOR_PIN, LOW);
+      masin_olek = KOLB_LYKKAB;
+    }
+    else
+    {
+      Serial.println("A1 ja A2 on erinevad");
+      masin_olek = oota(1000, KAS_A1_A2_VABA);
+    }
+    break;
+
+  case MOOTORID:
+    Serial.println("[ MOOTORID ]");
+    digitalWrite(OPTOCOUPLER_MOOTOR_PIN, HIGH);
+    masin_olek = oota(1000, KAS_A1_A2_VABA);
+    break;
+  
+  case KOLB_LYKKAB:
+    Serial.println("[ KOLB_LYKKAB ]");
+    digitalWrite(OPTOCOUPLER_SILINDER_PIN, HIGH);
+    masin_olek = oota(3000, KOLB_TAGASI);
+    break;
+  
+  case KOLB_TAGASI:
+    Serial.println("[ KOLB_TAGASI ]");
+    if (digitalRead(SILINER_SWITCH_PIN) == HIGH) {
+      Serial.println("Silinder tagasi");
+      masin_olek = KAS_A3_VABA;
+    } else {
+      Serial.print("-");
+      masin_olek = oota(1000, KOLB_TAGASI);
+    }
+    break;
+  }
+
 
   /*
 
@@ -131,22 +203,33 @@ void loop() {
 void loop1() {
 }
 
-/**********************************************************************
- * Run the stepper motor for a number of steps
- * @param dir   Direction (CW or CCW)
- * @param steps Number of steps
- * @param speed Speed of the motor
- **********************************************************************/
 
- int readSensorMajority(int sensorPin) {
+/**
+ * Reads a sensor and returns the majority value over 50 samples
+ * @param sensorPin The pin to read
+ * @return HIGH or LOW based on the majority of samples
+ */
+int readSensorMajority(int sensorPin) {
   int highCount = 0;
 
-  for (int sample = 0; sample < 100; sample++) {
+  for (int sample = 0; sample < 50; sample++) {
     if (digitalRead(sensorPin) == HIGH) {
       highCount++;
     }
-    delay(1);
+    delay(5);
   }
 
-  return highCount > 50 ? HIGH : LOW;
+  return highCount > 25 ? HIGH : LOW;
+}
+
+/**
+ * Waits for a specified time and then returns the next state
+ * @param next_state The state to return after waiting
+ * @param wait_time The time to wait (in milliseconds)
+ * @return The next state
+ */
+State oota(int wait_time, State next_state) {
+  Serial.println("Ootan!");
+  delay(wait_time);
+  return next_state;
 }
