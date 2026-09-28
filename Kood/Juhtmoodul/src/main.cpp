@@ -12,7 +12,10 @@ auto_init_mutex(my_mutex);  // Race Condition Protection
 /*************************************************
  Seaded
 **************************************************/
-#define MOTOR_WORK_TIME = 3000  // ms
+#define JAH LOW
+#define EI  HIGH
+#define PUNANE   LOW
+#define ROHELINE HIGH
 
 
 // Input pins:
@@ -90,19 +93,6 @@ void loop() {
   // mutex_exit(&my_mutex);
   static unsigned long time_now = millis();
 
-  // Test: Mootorid töötavad 28.09.2026
-  // digitalWrite(OPTOCOUPLER_MOOTOR_PIN, HIGH);
-
-  // Test: Andurid töötavad 28.09.2026
-  // High = Rohelin = ei
-  // Low = Punane = jah
-  //readSensorMajority(ANDUR_1_PIN) == HIGH ? Serial.println("ANDUR_1: ei") : Serial.println("ANDUR_1: jah");
-  //readSensorMajority(ANDUR_2_PIN) == HIGH ? Serial.println("ANDUR_2: ei") : Serial.println("ANDUR_2: jah");
-  //readSensorMajority(ANDUR_3_PIN) == HIGH ? Serial.println("ANDUR_3: ei") : Serial.println("ANDUR_3: jah");
-  
-  //digitalRead(SILINER_SWITCH_PIN) == HIGH ? Serial.println("SILINER_SWITCH_PIN: HIGH") : Serial.println("SILINER_SWITCH_PIN: LOW");
-  
-
   switch (masin_olek)
   {
   case ALGUS:
@@ -172,28 +162,6 @@ void loop() {
     break;
   }
 
-
-  /*
-
-  // Detect input signal
-  if (digitalRead(SILINER_SWITCH_PIN) == HIGH && !timerRunning) {
-    Serial.println("SILINER_SWITCH_PIN: HIGH");
-    motor_state = 1;
-    startTime = time_now;
-    timerRunning = true;
-  }
-
-  // Check if 3 seconds have passed
-  if (timerRunning && (time_now - startTime >= 3000)) {
-    motor_state = 0;
-    timerRunning = false;
-  }
-
-  if (motor_state == 1) {
-    digitalWrite(OPTOCOUPLER_MOOTOR_PIN, HIGH);
-  } else {
-    digitalWrite(OPTOCOUPLER_MOOTOR_PIN, LOW);
-  }*/
 }  // loop end
 
 
