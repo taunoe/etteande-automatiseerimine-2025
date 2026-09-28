@@ -2,7 +2,7 @@
  * Projekt:  Juhtmoodul
  * Autor:    Tauno Erik
  * Algus:    2026.03.03
- * Muudetud: 2026.03.12
+ * Muudetud: 2026.09.28
  */
 #include <Arduino.h>
 #include <pico/mutex.h>        // Race Condition Protection
@@ -88,7 +88,17 @@ void loop() {
   // mutex_exit(&my_mutex);
   static unsigned long time_now = millis();
 
-  digitalWrite(OPTOCOUPLER_MOOTOR_PIN, HIGH);
+  // Test: Mootorid töötavad 28.09.2026
+  // digitalWrite(OPTOCOUPLER_MOOTOR_PIN, HIGH);
+
+  // Test: Andur 1
+  // High = Rohelin
+  // Low = Punane
+  digitalRead(ANDUR_1_PIN) == HIGH ? Serial.println("ANDUR_1: HIGH") : Serial.println("ANDUR_1: LOW");
+  digitalRead(ANDUR_2_PIN) == HIGH ? Serial.println("ANDUR_2: HIGH") : Serial.println("ANDUR_2: LOW");
+  digitalRead(ANDUR_3_PIN) == HIGH ? Serial.println("ANDUR_3: HIGH") : Serial.println("ANDUR_3: LOW");
+  delay(500);
+
   /*
 
   // Detect input signal
