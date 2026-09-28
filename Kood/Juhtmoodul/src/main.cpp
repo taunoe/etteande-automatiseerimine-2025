@@ -91,7 +91,7 @@ void setup1() {
 void loop() {
   // mutex_enter_blocking(&my_mutex);
   // mutex_exit(&my_mutex);
-  static unsigned long time_now = millis();
+  // static unsigned long time_now = millis();
 
   switch (masin_olek)
   {
@@ -105,12 +105,12 @@ void loop() {
     // LOW = Punane = jah on detail
     if (readSensorMajority(ANDUR_3_PIN) == EI)// ei ole detaili
     {
-      Serial.println("Ei ole detaili");
+      Serial.println("\tEi ole detaili");
       masin_olek = KAS_A1_A2_VABA;
     } 
     else
     {
-      Serial.println("On detail");
+      Serial.println("\tOn detail");
       masin_olek = oota(1000, KAS_A3_VABA);
     }
     break;
@@ -121,19 +121,19 @@ void loop() {
     if (readSensorMajority(ANDUR_1_PIN) == EI 
     && readSensorMajority(ANDUR_2_PIN) == EI) 
     {
-      Serial.println("A1 ja A2 on vabad");
+      Serial.println("\tA1 ja A2 on vabad");
       masin_olek = MOOTORID;
     }
     else if (readSensorMajority(ANDUR_1_PIN) == JAH 
     && readSensorMajority(ANDUR_2_PIN) == JAH) 
     {
-      Serial.println("A1 ja A2 on detail");
+      Serial.println("\tA1 ja A2 on detail");
       digitalWrite(OPTOCOUPLER_MOOTOR_PIN, LOW);
       masin_olek = KOLB_LYKKAB;
     }
     else
     {
-      Serial.println("A1 ja A2 on erinevad");
+      Serial.println("\tA1 ja A2 on erinevad");
       masin_olek = oota(1000, KAS_A1_A2_VABA);
     }
     break;
@@ -155,7 +155,7 @@ void loop() {
   case KOLB_TAGASI:
     Serial.println("[ KOLB_TAGASI ]");
     if (digitalRead(SILINER_SWITCH_PIN) == HIGH) {
-      Serial.println("Silinder tagasi");
+      Serial.println("\tSilinder tagasi");
       masin_olek = KAS_A3_VABA;
     } else {
       Serial.print("-");
