@@ -103,7 +103,7 @@ void loop() {
   case KAS_A3_VABA:
     Serial.println("[ KAS_A3_VABA ]");
     // LOW = Punane = jah on detail
-    if (readSensorMajority(ANDUR_3_PIN) == HIGH)
+    if (readSensorMajority(ANDUR_3_PIN) == EI)
     {
       Serial.println("Ei ole detaili");
       masin_olek = oota(1000, KAS_A3_VABA);
