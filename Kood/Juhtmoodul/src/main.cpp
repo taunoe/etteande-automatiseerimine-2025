@@ -47,7 +47,7 @@ static State next_step = OOTA;
 /*************************************************
  Function prototypes
 **************************************************/
-
+int readSensorMajority(int sensorPin);
 
 
 
@@ -80,6 +80,8 @@ void setup1() {
 
 }
 
+
+
 /*******************************************************************
  Core 0 loop
  *******************************************************************/
@@ -94,10 +96,10 @@ void loop() {
   // Test: Andur 1
   // High = Rohelin
   // Low = Punane
-  digitalRead(ANDUR_1_PIN) == HIGH ? Serial.println("ANDUR_1: HIGH") : Serial.println("ANDUR_1: LOW");
-  digitalRead(ANDUR_2_PIN) == HIGH ? Serial.println("ANDUR_2: HIGH") : Serial.println("ANDUR_2: LOW");
-  digitalRead(ANDUR_3_PIN) == HIGH ? Serial.println("ANDUR_3: HIGH") : Serial.println("ANDUR_3: LOW");
-  delay(500);
+  readSensorMajority(ANDUR_1_PIN) == HIGH ? Serial.println("ANDUR_1: HIGH") : Serial.println("ANDUR_1: LOW");
+  readSensorMajority(ANDUR_2_PIN) == HIGH ? Serial.println("ANDUR_2: HIGH") : Serial.println("ANDUR_2: LOW");
+  readSensorMajority(ANDUR_3_PIN) == HIGH ? Serial.println("ANDUR_3: HIGH") : Serial.println("ANDUR_3: LOW");
+  delay(100);
 
   /*
 
@@ -135,3 +137,16 @@ void loop1() {
  * @param steps Number of steps
  * @param speed Speed of the motor
  **********************************************************************/
+
+ int readSensorMajority(int sensorPin) {
+  int highCount = 0;
+
+  for (int sample = 0; sample < 100; sample++) {
+    if (digitalRead(sensorPin) == HIGH) {
+      highCount++;
+    }
+    delay(1);
+  }
+
+  return highCount > 50 ? HIGH : LOW;
+}
