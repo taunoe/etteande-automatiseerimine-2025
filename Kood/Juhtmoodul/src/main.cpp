@@ -97,35 +97,35 @@ void loop() {
   {
   case ALGUS:
     Serial.println("[ ALGUS ]");
-    masin_olek = oota(1000, KAS_A3_VABA);
+    masin_olek = oota(1000, KAS_A1_A2_VABA);
     break;
 
   case KAS_A3_VABA:
     Serial.println("[ KAS_A3_VABA ]");
     // LOW = Punane = jah on detail
-    if (readSensorMajority(ANDUR_3_PIN) == EI)
+    if (readSensorMajority(ANDUR_3_PIN) == EI)// ei ole detaili
     {
       Serial.println("Ei ole detaili");
-      masin_olek = oota(1000, KAS_A3_VABA);
+      masin_olek = KAS_A1_A2_VABA;
     } 
     else
     {
       Serial.println("On detail");
-      masin_olek = KAS_A1_A2_VABA;
+      masin_olek = oota(1000, KAS_A3_VABA);
     }
     break;
 
   case KAS_A1_A2_VABA:
     Serial.println("[ KAS_A1_A2_VABA ]");
 
-    if (readSensorMajority(ANDUR_1_PIN) == HIGH 
-    && readSensorMajority(ANDUR_2_PIN) == HIGH) 
+    if (readSensorMajority(ANDUR_1_PIN) == EI 
+    && readSensorMajority(ANDUR_2_PIN) == EI) 
     {
       Serial.println("A1 ja A2 on vabad");
       masin_olek = MOOTORID;
     }
-    else if (readSensorMajority(ANDUR_1_PIN) == LOW 
-    && readSensorMajority(ANDUR_2_PIN) == LOW) 
+    else if (readSensorMajority(ANDUR_1_PIN) == JAH 
+    && readSensorMajority(ANDUR_2_PIN) == JAH) 
     {
       Serial.println("A1 ja A2 on detail");
       digitalWrite(OPTOCOUPLER_MOOTOR_PIN, LOW);
@@ -146,6 +146,8 @@ void loop() {
   
   case KOLB_LYKKAB:
     Serial.println("[ KOLB_LYKKAB ]");
+    // Kas A3 on vaba?
+
     digitalWrite(OPTOCOUPLER_SILINDER_PIN, HIGH);
     masin_olek = oota(3000, KOLB_TAGASI);
     break;
