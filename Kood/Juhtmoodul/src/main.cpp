@@ -73,6 +73,7 @@ void setup() {
   // Motor pin
   pinMode(OPTOCOUPLER_MOOTOR_PIN, OUTPUT);
   digitalWrite(OPTOCOUPLER_MOOTOR_PIN, LOW);
+  delay(10);
 }
 
 /*******************************************************************
@@ -141,7 +142,7 @@ void loop() {
   case MOOTORID:
     Serial.println("[ MOOTORID ]");
     digitalWrite(OPTOCOUPLER_MOOTOR_PIN, HIGH);
-    masin_olek = oota(1000, KAS_A1_A2_VABA);
+    masin_olek = oota(900, KAS_A1_A2_VABA);
     break;
   
   case KOLB_LYKKAB:
@@ -149,6 +150,8 @@ void loop() {
     // Kas A3 on vaba?
 
     digitalWrite(OPTOCOUPLER_SILINDER_PIN, HIGH);
+    delay(1000);
+    digitalWrite(OPTOCOUPLER_SILINDER_PIN, LOW);
     masin_olek = oota(3000, KOLB_TAGASI);
     break;
   
